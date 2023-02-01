@@ -4,7 +4,7 @@
 #### Pour faire l'épicerie plus facilement, on a décidé de faire une application pour téléphone qui nous aide à trouver les prix les plus bas. Le code va être fait préférablement en Javascript.
 
 ## Tâches à faire :
-### 1. Web scrapper :
+### 1. Web scraper :
 - Ce programme va chercher les prix sur chaque site web des épiceries.
 ### 2. Site web :
 - Le projet va être présenté sur ce site web.
