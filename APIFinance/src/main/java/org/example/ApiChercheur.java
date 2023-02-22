@@ -10,11 +10,13 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 
+import java.io.File;
 import java.io.IOException;
 
 public class ApiChercheur {
     private JsonNode actionJson;
     private String symbole;
+    private Action action;
 
     public ApiChercheur(String symbole) throws IOException {
         this.symbole = symbole;
@@ -22,20 +24,18 @@ public class ApiChercheur {
     }
 
     public void trouverJson(String symbol) {
-        try {
+
+
+
+
+            try {
+
             // AlphaVantage API endpoint URL
-            String url = "https://www.alphavantage.co/query";
-
-            // API parameters
-            String function = "TIME_SERIES_DAILY_ADJUSTED";
-            String apiKey = "G7JEWLBGCCURCQX8";
-
-            // Build the URL with the parameters
-            String fullUrl = String.format("%s?function=%s&symbol=%s&apikey=%s", url, function, symbol, apiKey);
+            String url = "https://api.twelvedata.com/time_series?symbol=" + symbol + "&interval=5min&apikey=e5805002196241eca2ec213f7506c6f1";
 
             // Create the HTTP GET request
             HttpClient client = HttpClientBuilder.create().build();
-            HttpGet request = new HttpGet(fullUrl);
+            HttpGet request = new HttpGet(url);
 
             // Execute the request and get the response
             HttpResponse response = client.execute(request);
@@ -46,6 +46,13 @@ public class ApiChercheur {
             // Convert the response to a JSON object using Jackson
             ObjectMapper mapper = new ObjectMapper();
             JsonNode jsonNode = mapper.readTree(responseBody);
+
+            String jsonString = jsonNode.toString();
+            JsonNode priceNode = jsonNode.at("/values/0/close");
+            Double price = priceNode.asDouble();
+            System.out.println("Price of " + symbol + " is " + price);
+action = new Action(jsonNode);
+
 
             actionJson = jsonNode;
         } catch (IOException e) {
@@ -58,5 +65,9 @@ public class ApiChercheur {
         return actionJson;
     }
 
+    public Action getAction() {
+
+        return action;
+    }
 }
 
