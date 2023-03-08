@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)file:///D:/Users/2164118/Desktop/Nouveau%20document%20texte.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <script src="./StockChart_files/apexcharts"></script>
+
+    <style>
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+body {
+  font-family: Roboto, sans-serif;
+}
+
+#chart {
+  max-width: 650px;
+  margin: 35px auto;
+}
+    </style>
+
+<style id="apexcharts-css">@keyframes opaque {
+  0% {
+      opacity: 0
+  }
+
+  to {
+      opacity: 1
+  }
+}
+
+@keyframes resizeanim {
+  0%,to {
+      opacity: 0
+  }
+}
+
+.apexcharts-canvas {
+  position: relative;
+  user-select: none
+}
+
+.apexcharts-canvas ::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 6px
+}
+
+.apexcharts-canvas ::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0,0,0,.5);
+  box-shadow: 0 0 1px rgba(255,255,255,.5);
+  -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5)
+}
+
+.apexcharts-inner {
+  position: relative
+}
+
+.apexcharts-text tspan {
+  font-family: inherit
+}
+
+.legend-mouseover-inactive {
+  transition: .15s ease all;
+  opacity: .2
+}
+
+.apexcharts-legend-text {
+  padding-left: 15px;
+  margin-left: -15px;
+}
+
+.apexcharts-series-collapsed {
+  opacity: 0
+}
+
+.apexcharts-tooltip {
+  border-radius: 5px;
+  box-shadow: 2px 2px 6px -4px #999;
+  cursor: default;
+  font-size: 14px;
+  left: 62px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 12;
+  transition: .15s ease all
+}
+
+.apexcharts-tooltip.apexcharts-active {
+  opacity: 1;
+  transition: .15s ease all
+}
+
+.apexcharts-tooltip.apexcharts-theme-light {
+  border: 1px solid #e3e3e3;
+  background: rgba(255,255,255,.96)
+}
+
+.apexcharts-tooltip.apexcharts-theme-dark {
+  color: #fff;
+  background: rgba(30,30,30,.8)
+}
+
+.apexcharts-tooltip * {
+  font-family: inherit
+}
+
+.apexcharts-tooltip-title {
+  padding: 6px;
+  font-size: 15px;
+  margin-bottom: 4px
+}
+
+.apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title {
+  background: #eceff1;
+  border-bottom: 1px solid #ddd
+}
+
+.apexcharts-tooltip.apexcharts-theme-dark .apexcharts-tooltip-title {
+  background: rgba(0,0,0,.7);
+  border-bottom: 1px solid #333
+}
+
+.apexcharts-tooltip-text-goals-value,.apexcharts-tooltip-text-y-value,.apexcharts-tooltip-text-z-value {
+  display: inline-block;
+  margin-left: 5px;
+  font-weight: 600
+}
+
+.apexcharts-tooltip-text-goals-label:empty,.apexcharts-tooltip-text-goals-value:empty,.apexcharts-tooltip-text-y-label:empty,.apexcharts-tooltip-text-y-value:empty,.apexcharts-tooltip-text-z-value:empty,.apexcharts-tooltip-title:empty {
+  display: none
+}
+
+.apexcharts-tooltip-text-goals-label,.apexcharts-tooltip-text-goals-value {
+  padding: 6px 0 5px
+}
+
+.apexcharts-tooltip-goals-group,.apexcharts-tooltip-text-goals-label,.apexcharts-tooltip-text-goals-value {
+  display: flex
+}
+
+.apexcharts-tooltip-text-goals-label:not(:empty),.apexcharts-tooltip-text-goals-value:not(:empty) {
+  margin-top: -6px
+}
+
+.apexcharts-tooltip-marker {
+  width: 12px;
+  height: 12px;
+  position: relative;
+  top: 0;
+  margin-right: 10px;
+  border-radius: 50%
+}
+
+.apexcharts-tooltip-series-group {
+  padding: 0 10px;
+  display: none;
+  text-align: left;
+  justify-content: left;
+  align-items: center
+}
+
+.apexcharts-tooltip-series-group.apexcharts-active .apexcharts-tooltip-marker {
+  opacity: 1
+}
+
+.apexcharts-tooltip-series-group.apexcharts-active,.apexcharts-tooltip-series-group:last-child {
+  padding-bottom: 4px
+}
+
+.apexcharts-tooltip-series-group-hidden {
+  opacity: 0;
+  height: 0;
+  line-height: 0;
+  padding: 0!important
+}
+
+.apexcharts-tooltip-y-group {
+  padding: 6px 0 5px
+}
+
+.apexcharts-custom-tooltip,.apexcharts-tooltip-box {
+  padding: 4px 8px
+}
+
+.apexcharts-tooltip-boxPlot {
+  display: flex;
+  flex-direction: column-reverse
+}
+
+.apexcharts-tooltip-box>div {
+  margin: 4px 0
+}
+
+.apexcharts-tooltip-box span.value {
+  font-weight: 700
+}
+
+.apexcharts-tooltip-rangebar {
+  padding: 5px 8px
+}
+
+.apexcharts-tooltip-rangebar .category {
+  font-weight: 600;
+  color: #777
+}
+
+.apexcharts-tooltip-rangebar .series-name {
+  font-weight: 700;
+  display: block;
+  margin-bottom: 5px
+}
+
+.apexcharts-xaxistooltip,.apexcharts-yaxistooltip {
+  opacity: 0;
+  pointer-events: none;
+  color: #373d3f;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+  background: #eceff1;
+  border: 1px solid #90a4ae
+}
+
+.apexcharts-xaxistooltip {
+  padding: 9px 10px;
+  transition: .15s ease all
+}
+
+.apexcharts-xaxistooltip.apexcharts-theme-dark {
+  background: rgba(0,0,0,.7);
+  border: 1px solid rgba(0,0,0,.5);
+  color: #fff
+}
+
+.apexcharts-xaxistooltip:after,.apexcharts-xaxistooltip:before {
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none
+}
+
+.apexcharts-xaxistooltip:after {
+  border-color: transparent;
+  border-width: 6px;
+  margin-left: -6px
+}
+
+.apexcharts-xaxistooltip:before {
+  border-color: transparent;
+  border-width: 7px;
+  margin-left: -7px
+}
+
+.apexcharts-xaxistooltip-bottom:after,.apexcharts-xaxistooltip-bottom:before {
+  bottom: 100%
+}
+
+.apexcharts-xaxistooltip-top:after,.apexcharts-xaxistooltip-top:before {
+  top: 100%
+}
+
+.apexcharts-xaxistooltip-bottom:after {
+  border-bottom-color: #eceff1
+}
+
+.apexcharts-xaxistooltip-bottom:before {
+  border-bottom-color: #90a4ae
+}
+
+.apexcharts-xaxistooltip-bottom.apexcharts-theme-dark:after,.apexcharts-xaxistooltip-bottom.apexcharts-theme-dark:before {
+  border-bottom-color: rgba(0,0,0,.5)
+}
+
+.apexcharts-xaxistooltip-top:after {
+  border-top-color: #eceff1
+}
+
+.apexcharts-xaxistooltip-top:before {
+  border-top-color: #90a4ae
+}
+
+.apexcharts-xaxistooltip-top.apexcharts-theme-dark:after,.apexcharts-xaxistooltip-top.apexcharts-theme-dark:before {
+  border-top-color: rgba(0,0,0,.5)
+}
+
+.apexcharts-xaxistooltip.apexcharts-active {
+  opacity: 1;
+  transition: .15s ease all
+}
+
+.apexcharts-yaxistooltip {
+  padding: 4px 10px
+}
+
+.apexcharts-yaxistooltip.apexcharts-theme-dark {
+  background: rgba(0,0,0,.7);
+  border: 1px solid rgba(0,0,0,.5);
+  color: #fff
+}
+
+.apexcharts-yaxistooltip:after,.apexcharts-yaxistooltip:before {
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none
+}
+
+.apexcharts-yaxistooltip:after {
+  border-color: transparent;
+  border-width: 6px;
+  margin-top: -6px
+}
+
+.apexcharts-yaxistooltip:before {
+  border-color: transparent;
+  border-width: 7px;
+  margin-top: -7px
+}
+
+.apexcharts-yaxistooltip-left:after,.apexcharts-yaxistooltip-left:before {
+  left: 100%
+}
+
+.apexcharts-yaxistooltip-right:after,.apexcharts-yaxistooltip-right:before {
+  right: 100%
+}
+
+.apexcharts-yaxistooltip-left:after {
+  border-left-color: #eceff1
+}
+
+.apexcharts-yaxistooltip-left:before {
+  border-left-color: #90a4ae
+}
+
+.apexcharts-yaxistooltip-left.apexcharts-theme-dark:after,.apexcharts-yaxistooltip-left.apexcharts-theme-dark:before {
+  border-left-color: rgba(0,0,0,.5)
+}
+
+.apexcharts-yaxistooltip-right:after {
+  border-right-color: #eceff1
+}
+
+.apexcharts-yaxistooltip-right:before {
+  border-right-color: #90a4ae
+}
+
+.apexcharts-yaxistooltip-right.apexcharts-theme-dark:after,.apexcharts-yaxistooltip-right.apexcharts-theme-dark:before {
+  border-right-color: rgba(0,0,0,.5)
+}
+
+.apexcharts-yaxistooltip.apexcharts-active {
+  opacity: 1
+}
+
+.apexcharts-yaxistooltip-hidden {
+  display: none
+}
+
+.apexcharts-xcrosshairs,.apexcharts-ycrosshairs {
+  pointer-events: none;
+  opacity: 0;
+  transition: .15s ease all
+}
+
+.apexcharts-xcrosshairs.apexcharts-active,.apexcharts-ycrosshairs.apexcharts-active {
+  opacity: 1;
+  transition: .15s ease all
+}
+
+.apexcharts-ycrosshairs-hidden {
+  opacity: 0
+}
+
+.apexcharts-selection-rect {
+  cursor: move
+}
+
+.svg_select_boundingRect,.svg_select_points_rot {
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden
+}
+
+.apexcharts-selection-rect+g .svg_select_boundingRect,.apexcharts-selection-rect+g .svg_select_points_rot {
+  opacity: 0;
+  visibility: hidden
+}
+
+.apexcharts-selection-rect+g .svg_select_points_l,.apexcharts-selection-rect+g .svg_select_points_r {
+  cursor: ew-resize;
+  opacity: 1;
+  visibility: visible
+}
+
+.svg_select_points {
+  fill: #efefef;
+  stroke: #333;
+  rx: 2
+}
+
+.apexcharts-svg.apexcharts-zoomable.hovering-zoom {
+  cursor: crosshair
+}
+
+.apexcharts-svg.apexcharts-zoomable.hovering-pan {
+  cursor: move
+}
+
+.apexcharts-menu-icon,.apexcharts-pan-icon,.apexcharts-reset-icon,.apexcharts-selection-icon,.apexcharts-toolbar-custom-icon,.apexcharts-zoom-icon,.apexcharts-zoomin-icon,.apexcharts-zoomout-icon {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  line-height: 24px;
+  color: #6e8192;
+  text-align: center
+}
+
+.apexcharts-menu-icon svg,.apexcharts-reset-icon svg,.apexcharts-zoom-icon svg,.apexcharts-zoomin-icon svg,.apexcharts-zoomout-icon svg {
+  fill: #6e8192
+}
+
+.apexcharts-selection-icon svg {
+  fill: #444;
+  transform: scale(.76)
+}
+
+.apexcharts-theme-dark .apexcharts-menu-icon svg,.apexcharts-theme-dark .apexcharts-pan-icon svg,.apexcharts-theme-dark .apexcharts-reset-icon svg,.apexcharts-theme-dark .apexcharts-selection-icon svg,.apexcharts-theme-dark .apexcharts-toolbar-custom-icon svg,.apexcharts-theme-dark .apexcharts-zoom-icon svg,.apexcharts-theme-dark .apexcharts-zoomin-icon svg,.apexcharts-theme-dark .apexcharts-zoomout-icon svg {
+  fill: #f3f4f5
+}
+
+.apexcharts-canvas .apexcharts-reset-zoom-icon.apexcharts-selected svg,.apexcharts-canvas .apexcharts-selection-icon.apexcharts-selected svg,.apexcharts-canvas .apexcharts-zoom-icon.apexcharts-selected svg {
+  fill: #008ffb
+}
+
+.apexcharts-theme-light .apexcharts-menu-icon:hover svg,.apexcharts-theme-light .apexcharts-reset-icon:hover svg,.apexcharts-theme-light .apexcharts-selection-icon:not(.apexcharts-selected):hover svg,.apexcharts-theme-light .apexcharts-zoom-icon:not(.apexcharts-selected):hover svg,.apexcharts-theme-light .apexcharts-zoomin-icon:hover svg,.apexcharts-theme-light .apexcharts-zoomout-icon:hover svg {
+  fill: #333
+}
+
+.apexcharts-menu-icon,.apexcharts-selection-icon {
+  position: relative
+}
+
+.apexcharts-reset-icon {
+  margin-left: 5px
+}
+
+.apexcharts-menu-icon,.apexcharts-reset-icon,.apexcharts-zoom-icon {
+  transform: scale(.85)
+}
+
+.apexcharts-zoomin-icon,.apexcharts-zoomout-icon {
+  transform: scale(.7)
+}
+
+.apexcharts-zoomout-icon {
+  margin-right: 3px
+}
+
+.apexcharts-pan-icon {
+  transform: scale(.62);
+  position: relative;
+  left: 1px;
+  top: 0
+}
+
+.apexcharts-pan-icon svg {
+  fill: #fff;
+  stroke: #6e8192;
+  stroke-width: 2
+}
+
+.apexcharts-pan-icon.apexcharts-selected svg {
+  stroke: #008ffb
+}
+
+.apexcharts-pan-icon:not(.apexcharts-selected):hover svg {
+  stroke: #333
+}
+
+.apexcharts-toolbar {
+  position: absolute;
+  z-index: 11;
+  max-width: 176px;
+  text-align: right;
+  border-radius: 3px;
+  padding: 0 6px 2px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center
+}
+
+.apexcharts-menu {
+  background: #fff;
+  position: absolute;
+  top: 100%;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 3px;
+  right: 10px;
+  opacity: 0;
+  min-width: 110px;
+  transition: .15s ease all;
+  pointer-events: none
+}
+
+.apexcharts-menu.apexcharts-menu-open {
+  opacity: 1;
+  pointer-events: all;
+  transition: .15s ease all
+}
+
+.apexcharts-menu-item {
+  padding: 6px 7px;
+  font-size: 12px;
+  cursor: pointer
+}
+
+.apexcharts-theme-light .apexcharts-menu-item:hover {
+  background: #eee
+}
+
+.apexcharts-theme-dark .apexcharts-menu {
+  background: rgba(0,0,0,.7);
+  color: #fff
+}
+
+@media screen and (min-width:768px) {
+  .apexcharts-canvas:hover .apexcharts-toolbar {
+      opacity: 1
+  }
+}
+
+.apexcharts-canvas .apexcharts-element-hidden,.apexcharts-datalabel.apexcharts-element-hidden,.apexcharts-hide .apexcharts-series-points {
+  opacity: 0
+}
+
+.apexcharts-datalabel,.apexcharts-datalabel-label,.apexcharts-datalabel-value,.apexcharts-datalabels,.apexcharts-pie-label {
+  cursor: default;
+  pointer-events: none
+}
+
+.apexcharts-pie-label-delay {
+  opacity: 0;
+  animation-name: opaque;
+  animation-duration: .3s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease
+}
+
+.apexcharts-legend {	
+  display: flex;	
+  overflow: auto;	
+  padding: 0 10px;	
+}	
+.apexcharts-legend.apx-legend-position-bottom, .apexcharts-legend.apx-legend-position-top {	
+  flex-wrap: wrap	
+}	
+.apexcharts-legend.apx-legend-position-right, .apexcharts-legend.apx-legend-position-left {	
+  flex-direction: column;	
+  bottom: 0;	
+}	
+.apexcharts-legend.apx-legend-position-bottom.apexcharts-align-left, .apexcharts-legend.apx-legend-position-top.apexcharts-align-left, .apexcharts-legend.apx-legend-position-right, .apexcharts-legend.apx-legend-position-left {	
+  justify-content: flex-start;	
+}	
+.apexcharts-legend.apx-legend-position-bottom.apexcharts-align-center, .apexcharts-legend.apx-legend-position-top.apexcharts-align-center {	
+  justify-content: center;  	
+}	
+.apexcharts-legend.apx-legend-position-bottom.apexcharts-align-right, .apexcharts-legend.apx-legend-position-top.apexcharts-align-right {	
+  justify-content: flex-end;	
+}	
+.apexcharts-legend-series {	
+  cursor: pointer;	
+  line-height: normal;	
+}	
+.apexcharts-legend.apx-legend-position-bottom .apexcharts-legend-series, .apexcharts-legend.apx-legend-position-top .apexcharts-legend-series{	
+  display: flex;	
+  align-items: center;	
+}	
+.apexcharts-legend-text {	
+  position: relative;	
+  font-size: 14px;	
+}	
+.apexcharts-legend-text *, .apexcharts-legend-marker * {	
+  pointer-events: none;	
+}	
+.apexcharts-legend-marker {	
+  position: relative;	
+  display: inline-block;	
+  cursor: pointer;	
+  margin-right: 3px;	
+  border-style: solid;
+}	
+  
+.apexcharts-legend.apexcharts-align-right .apexcharts-legend-series, .apexcharts-legend.apexcharts-align-left .apexcharts-legend-series{	
+  display: inline-block;	
+}	
+.apexcharts-legend-series.apexcharts-no-click {	
+  cursor: auto;	
+}	
+.apexcharts-legend .apexcharts-hidden-zero-series, .apexcharts-legend .apexcharts-hidden-null-series {	
+  display: none !important;	
+}	
+.apexcharts-inactive-legend {	
+  opacity: 0.45;	
+}
+
+.apexcharts-annotation-rect,.apexcharts-area-series .apexcharts-area,.apexcharts-area-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,.apexcharts-gridline,.apexcharts-line,.apexcharts-line-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,.apexcharts-point-annotation-label,.apexcharts-radar-series path,.apexcharts-radar-series polygon,.apexcharts-toolbar svg,.apexcharts-tooltip .apexcharts-marker,.apexcharts-xaxis-annotation-label,.apexcharts-yaxis-annotation-label,.apexcharts-zoom-rect {
+  pointer-events: none
+}
+
+.apexcharts-marker {
+  transition: .15s ease all
+}
+
+.resize-triggers {
+  animation: 1ms resizeanim;
+  visibility: hidden;
+  opacity: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden
+}
+
+.contract-trigger:before,.resize-triggers,.resize-triggers>div {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0
+}
+
+.resize-triggers>div {
+  height: 100%;
+  width: 100%;
+  background: #eee;
+  overflow: auto
+}
+
+.contract-trigger:before {
+  overflow: hidden;
+  width: 200%;
+  height: 200%
+}
+</style></head>
+
+
+<body>
+
+<h1>My First Heading</h1>
+<p>My first......</p>
+<div id="chart" style="min-height: 365px;"><div id="apexcharts72lju0eb" class="apexcharts-canvas apexcharts72lju0eb apexcharts-theme-light" style="width: 650px; height: 350px;"><svg id="SvgjsSvg20216" width="650" height="350" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev" class="apexcharts-svg apexcharts-zoomable hovering-pan" xmlns:data="ApexChartsNS" transform="translate(0, 0)" style="background: transparent;"><text id="SvgjsText20220" font-family="Helvetica, Arial, sans-serif" x="10" y="16.5" text-anchor="start" dominant-baseline="auto" font-size="14px" font-weight="900" fill="#373d3f" class="apexcharts-title-text" style="font-family: Helvetica, Arial, sans-serif; opacity: 1;">CandleStick Chart</text><rect id="SvgjsRect20224" width="0" height="0" x="0" y="0" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fefefe"></rect><g id="SvgjsG20399" class="apexcharts-yaxis" rel="0" transform="translate(36.76787567138672, 0)"><g id="SvgjsG20400" class="apexcharts-yaxis-texts-g"><text id="SvgjsText20402" font-family="Helvetica, Arial, sans-serif" x="20" y="56.5" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan20403">6660.00</tspan><title>6660.00</title></text><text id="SvgjsText20405" font-family="Helvetica, Arial, sans-serif" x="20" y="109.34571418762206" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan20406">6640.00</tspan><title>6640.00</title></text><text id="SvgjsText20408" font-family="Helvetica, Arial, sans-serif" x="20" y="162.19142837524413" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan20409">6620.00</tspan><title>6620.00</title></text><text id="SvgjsText20411" font-family="Helvetica, Arial, sans-serif" x="20" y="215.0371425628662" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan20412">6600.00</tspan><title>6600.00</title></text><text id="SvgjsText20414" font-family="Helvetica, Arial, sans-serif" x="20" y="267.88285675048826" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan20415">6580.00</tspan><title>6580.00</title></text><text id="SvgjsText20417" font-family="Helvetica, Arial, sans-serif" x="20" y="320.72857093811035" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan20418">6560.00</tspan><title>6560.00</title></text></g></g><g id="SvgjsG20218" class="apexcharts-inner apexcharts-graphical" transform="translate(80.30191507285598, 55)"><defs id="SvgjsDefs20217"><clippath id="gridRectMask72lju0eb"><rect id="SvgjsRect20257" width="581.1640455256747" height="265.22857093811035" x="-14.5" y="-0.5" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect></clippath><clippath id="forecastMask72lju0eb"></clippath><clippath id="nonForecastMask72lju0eb"></clippath><clippath id="gridRectMarkerMask72lju0eb"><rect id="SvgjsRect20258" width="558.1640455256747" height="268.22857093811035" x="-2" y="-2" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect></clippath></defs><line id="SvgjsLine20225" x1="133.78396700497342" y1="0" x2="133.78396700497342" y2="264.22857093811035" stroke="#b6b6b6" stroke-dasharray="3" stroke-linecap="butt" class="apexcharts-xcrosshairs" x="133.78396700497342" y="0" width="1" height="264.22857093811035" fill="#b1b9c4" filter="none" fill-opacity="0.9" stroke-width="1"></line><line id="SvgjsLine20326" x1="9.39261094111313" y1="265.22857093811035" x2="9.39261094111313" y2="271.22857093811035" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine20327" x1="46.96305470556565" y1="265.22857093811035" x2="46.96305470556565" y2="271.22857093811035" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine20328" x1="84.53349847001817" y1="265.22857093811035" x2="84.53349847001817" y2="271.22857093811035" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine20329" x1="122.10394223447071" y1="265.22857093811035" x2="122.10394223447071" y2="271.22857093811035" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine20330" x1="159.67438599892324" y1="265.22857093811035" x2="159.67438599892324" y2="271.22857093811035" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine20331" x1="197.24482976337578" y1="265.22857093811035" x2="197.24482976337578" y2="271.22857093811035" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine20332" x1="234.8152735278283" y1="265.22857093811035" x2="234.8152735278283" y2="271.22857093811035" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine20333" x1="272.38571729228084" y1="265.22857093811035" x2="272.38571729228084" y2="271.22857093811035" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine20334" x1="309.9561610567334" y1="265.22857093811035" x2="309.9561610567334" y2="271.22857093811035" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine20335" x1="347.5266048211859" y1="265.22857093811035" x2="347.5266048211859" y2="271.22857093811035" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine20336" x1="385.09704858563845" y1="265.22857093811035" x2="385.09704858563845" y2="271.22857093811035" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine20337" x1="422.667492350091" y1="265.22857093811035" x2="422.667492350091" y2="271.22857093811035" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine20338" x1="460.2379361145435" y1="265.22857093811035" x2="460.2379361145435" y2="271.22857093811035" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine20339" x1="497.80837987899605" y1="265.22857093811035" x2="497.80837987899605" y2="271.22857093811035" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine20340" x1="535.3788236434485" y1="265.22857093811035" x2="535.3788236434485" y2="271.22857093811035" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-xaxis-tick"></line><g id="SvgjsG20322" class="apexcharts-grid"><g id="SvgjsG20323" class="apexcharts-gridlines-horizontal"><line id="SvgjsLine20342" x1="-9.534039401469258" y1="52.84571418762207" x2="563.698084927144" y2="52.84571418762207" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-gridline"></line><line id="SvgjsLine20343" x1="-9.534039401469258" y1="105.69142837524414" x2="563.698084927144" y2="105.69142837524414" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-gridline"></line><line id="SvgjsLine20344" x1="-9.534039401469258" y1="158.53714256286622" x2="563.698084927144" y2="158.53714256286622" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-gridline"></line><line id="SvgjsLine20345" x1="-9.534039401469258" y1="211.3828567504883" x2="563.698084927144" y2="211.3828567504883" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-gridline"></line></g><g id="SvgjsG20324" class="apexcharts-gridlines-vertical"></g><line id="SvgjsLine20348" x1="0" y1="264.22857093811035" x2="554.1640455256747" y2="264.22857093811035" stroke="transparent" stroke-dasharray="0" stroke-linecap="butt"></line><line id="SvgjsLine20347" x1="0" y1="1" x2="0" y2="264.22857093811035" stroke="transparent" stroke-dasharray="0" stroke-linecap="butt"></line></g><g id="SvgjsG20325" class="apexcharts-grid-borders"><line id="SvgjsLine20341" x1="-9.534039401469258" y1="0" x2="563.698084927144" y2="0" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-gridline"></line><line id="SvgjsLine20346" x1="-9.534039401469258" y1="264.22857093811035" x2="563.698084927144" y2="264.22857093811035" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-gridline"></line><line id="SvgjsLine20398" x1="-9.534039401469258" y1="265.22857093811035" x2="563.698084927144" y2="265.22857093811035" stroke="#e0e0e0" stroke-dasharray="0" stroke-width="1" stroke-linecap="butt"></line></g><g id="SvgjsG20259" class="apexcharts-candlestick-series apexcharts-plot-series"><g id="SvgjsG20260" class="apexcharts-series" seriesName="series-1" rel="1" data:realIndex="0"><path id="SvgjsPath20262" d="M -3.287413829389595 70.46975986919279 L 0 70.46975986919279 L 0 25.101714239121065 L 0 70.46975986919279 L 3.287413829389595 70.46975986919279 L 3.287413829389595 79.77060556621291 L 0 79.77060556621291 L 0 97.65887981872584 L 0 79.77060556621291 L -3.287413829389595 79.77060556621291 L -3.287413829389595 69.96975986919279" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M -3.287413829389595 70.46975986919279 L 0 70.46975986919279 L 0 25.101714239121065 L 0 70.46975986919279 L 3.287413829389595 70.46975986919279 L 3.287413829389595 79.77060556621291 L 0 79.77060556621291 L 0 97.65887981872584 L 0 79.77060556621291 L -3.287413829389595 79.77060556621291 L -3.287413829389595 69.96975986919279" pathFrom="M -7992.798823855904 70.46975986919279 L -7887.601581315436 70.46975986919279 L -7887.601581315436 25.101714239121065 L -7887.601581315436 70.46975986919279 L -7782.40433877497 70.46975986919279 L -7782.40433877497 79.77060556621291 L -7887.601581315436 79.77060556621291 L -7887.601581315436 97.65887981872584 L -7887.601581315436 79.77060556621291 L -7992.798823855904 79.77060556621291 L -7992.798823855904 69.96975986919279M -3.287413829389595 79.77060556621291" cy="70.46975986919279" cx="2.787413829389595" j="0" val="6633.33" barWidth="6.57482765877919"></path><path id="SvgjsPath20263" d="M 6.105197111723535 73.95757700557442 L 9.39261094111313 73.95757700557442 L 9.39261094111313 43.35990849094378 L 9.39261094111313 73.95757700557442 L 12.680024770502726 73.95757700557442 L 12.680024770502726 78.97791985340154 L 9.39261094111313 78.97791985340154 L 9.39261094111313 105.69142837524487 L 9.39261094111313 78.97791985340154 L 6.105197111723535 78.97791985340154 L 6.105197111723535 73.45757700557442" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 6.105197111723535 73.95757700557442 L 9.39261094111313 73.95757700557442 L 9.39261094111313 43.35990849094378 L 9.39261094111313 73.95757700557442 L 12.680024770502726 73.95757700557442 L 12.680024770502726 78.97791985340154 L 9.39261094111313 78.97791985340154 L 9.39261094111313 105.69142837524487 L 9.39261094111313 78.97791985340154 L 6.105197111723535 78.97791985340154 L 6.105197111723535 73.45757700557442" pathFrom="M -7692.235273740284 73.95757700557442 L -7587.038031199817 73.95757700557442 L -7587.038031199817 43.35990849094378 L -7587.038031199817 73.95757700557442 L -7481.84078865935 73.95757700557442 L -7481.84078865935 78.97791985340154 L -7587.038031199817 78.97791985340154 L -7587.038031199817 105.69142837524487 L -7587.038031199817 78.97791985340154 L -7692.235273740284 78.97791985340154 L -7692.235273740284 73.45757700557442M 6.105197111723535 78.97791985340154" cy="73.95757700557442" cx="12.180024770502726" j="1" val="6630.11" barWidth="6.57482765877919"></path><path id="SvgjsPath20264" d="M 15.497808052836664 64.33965702342903 L 18.78522188222626 64.33965702342903 L 18.78522188222626 29.19725708866099 L 18.78522188222626 64.33965702342903 L 22.072635711615852 64.33965702342903 L 22.072635711615852 77.39254842777154 L 18.78522188222626 77.39254842777154 L 18.78522188222626 96.86619410591084 L 18.78522188222626 77.39254842777154 L 15.497808052836664 77.39254842777154 L 15.497808052836664 63.83965702342903" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 15.497808052836664 64.33965702342903 L 18.78522188222626 64.33965702342903 L 18.78522188222626 29.19725708866099 L 18.78522188222626 64.33965702342903 L 22.072635711615852 64.33965702342903 L 22.072635711615852 77.39254842777154 L 18.78522188222626 77.39254842777154 L 18.78522188222626 96.86619410591084 L 18.78522188222626 77.39254842777154 L 15.497808052836664 77.39254842777154 L 15.497808052836664 63.83965702342903" pathFrom="M -7391.671723624664 64.33965702342903 L -7286.474481084197 64.33965702342903 L -7286.474481084197 29.19725708866099 L -7286.474481084197 64.33965702342903 L -7181.27723854373 64.33965702342903 L -7181.27723854373 77.39254842777154 L -7286.474481084197 77.39254842777154 L -7286.474481084197 96.86619410591084 L -7286.474481084197 77.39254842777154 L -7391.671723624664 77.39254842777154 L -7391.671723624664 63.83965702342903M 15.497808052836664 77.39254842777154" cy="64.33965702342903" cx="21.572635711615852" j="2" val="6635.65" barWidth="6.57482765877919"></path><path id="SvgjsPath20265" d="M 24.890418993949798 57.496137036130676 L 28.177832823339394 57.496137036130676 L 28.177832823339394 23.780571384428185 L 28.177832823339394 57.496137036130676 L 31.465246652728986 57.496137036130676 L 31.465246652728986 64.33965702342903 L 28.177832823339394 64.33965702342903 L 28.177832823339394 80.14052556552633 L 28.177832823339394 64.33965702342903 L 24.890418993949798 64.33965702342903 L 24.890418993949798 56.996137036130676" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 24.890418993949798 57.496137036130676 L 28.177832823339394 57.496137036130676 L 28.177832823339394 23.780571384428185 L 28.177832823339394 57.496137036130676 L 31.465246652728986 57.496137036130676 L 31.465246652728986 64.33965702342903 L 28.177832823339394 64.33965702342903 L 28.177832823339394 80.14052556552633 L 28.177832823339394 64.33965702342903 L 24.890418993949798 64.33965702342903 L 24.890418993949798 56.996137036130676" pathFrom="M -7091.108173509044 57.496137036130676 L -6985.910930968576 57.496137036130676 L -6985.910930968576 23.780571384428185 L -6985.910930968576 57.496137036130676 L -6880.71368842811 57.496137036130676 L -6880.71368842811 64.33965702342903 L -6985.910930968576 64.33965702342903 L -6985.910930968576 80.14052556552633 L -6985.910930968576 64.33965702342903 L -7091.108173509044 64.33965702342903 L -7091.108173509044 56.996137036130676M 24.890418993949798 64.33965702342903" cy="57.496137036130676" cx="30.965246652728986" j="3" val="6638.24" barWidth="6.57482765877919"></path><path id="SvgjsPath20266" d="M 34.28302993506293 57.496137036130676 L 37.57044376445252 57.496137036130676 L 37.57044376445252 52.845714187620615 L 37.57044376445252 57.496137036130676 L 40.85785759384212 57.496137036130676 L 40.85785759384212 93.88041125430755 L 37.57044376445252 93.88041125430755 L 37.57044376445252 105.69142837524487 L 37.57044376445252 93.88041125430755 L 34.28302993506293 93.88041125430755 L 34.28302993506293 56.996137036130676" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 34.28302993506293 57.496137036130676 L 37.57044376445252 57.496137036130676 L 37.57044376445252 52.845714187620615 L 37.57044376445252 57.496137036130676 L 40.85785759384212 57.496137036130676 L 40.85785759384212 93.88041125430755 L 37.57044376445252 93.88041125430755 L 37.57044376445252 105.69142837524487 L 37.57044376445252 93.88041125430755 L 34.28302993506293 93.88041125430755 L 34.28302993506293 56.996137036130676" pathFrom="M -6790.5446233934235 57.496137036130676 L -6685.347380852956 57.496137036130676 L -6685.347380852956 52.845714187620615 L -6685.347380852956 57.496137036130676 L -6580.15013831249 57.496137036130676 L -6580.15013831249 93.88041125430755 L -6685.347380852956 93.88041125430755 L -6685.347380852956 105.69142837524487 L -6685.347380852956 93.88041125430755 L -6790.5446233934235 93.88041125430755 L -6790.5446233934235 56.996137036130676M 34.28302993506293 93.88041125430755" cy="57.496137036130676" cx="40.35785759384212" j="4" val="6624.47" barWidth="6.57482765877919"></path><path id="SvgjsPath20267" d="M 43.67564087617606 93.72187411174673 L 46.96305470556565 93.72187411174673 L 46.96305470556565 63.33558845386506 L 46.96305470556565 93.72187411174673 L 50.25046853495525 93.72187411174673 L 50.25046853495525 94.30317696780912 L 46.96305470556565 94.30317696780912 L 46.96305470556565 101.25238838348378 L 46.96305470556565 94.30317696780912 L 43.67564087617606 94.30317696780912 L 43.67564087617606 93.22187411174673" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 43.67564087617606 93.72187411174673 L 46.96305470556565 93.72187411174673 L 46.96305470556565 63.33558845386506 L 46.96305470556565 93.72187411174673 L 50.25046853495525 93.72187411174673 L 50.25046853495525 94.30317696780912 L 46.96305470556565 94.30317696780912 L 46.96305470556565 101.25238838348378 L 46.96305470556565 94.30317696780912 L 43.67564087617606 94.30317696780912 L 43.67564087617606 93.22187411174673" pathFrom="M -6489.981073277803 93.72187411174673 L -6384.783830737336 93.72187411174673 L -6384.783830737336 63.33558845386506 L -6384.783830737336 93.72187411174673 L -6279.586588196869 93.72187411174673 L -6279.586588196869 94.30317696780912 L -6384.783830737336 94.30317696780912 L -6384.783830737336 101.25238838348378 L -6384.783830737336 94.30317696780912 L -6489.981073277803 94.30317696780912 L -6489.981073277803 93.22187411174673M 43.67564087617606 94.30317696780912" cy="93.72187411174673" cx="49.75046853495525" j="5" val="6624.31" barWidth="6.57482765877919"></path><path id="SvgjsPath20268" d="M 53.068251817289195 89.78486840476762 L 56.35566564667879 89.78486840476762 L 56.35566564667879 73.45554272079244 L 56.35566564667879 89.78486840476762 L 59.64307947606839 89.78486840476762 L 59.64307947606839 93.51049125499776 L 56.35566564667879 93.51049125499776 L 56.35566564667879 113.6182855033876 L 56.35566564667879 93.51049125499776 L 53.068251817289195 93.51049125499776 L 53.068251817289195 89.28486840476762" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 53.068251817289195 89.78486840476762 L 56.35566564667879 89.78486840476762 L 56.35566564667879 73.45554272079244 L 56.35566564667879 89.78486840476762 L 59.64307947606839 89.78486840476762 L 59.64307947606839 93.51049125499776 L 56.35566564667879 93.51049125499776 L 56.35566564667879 113.6182855033876 L 56.35566564667879 93.51049125499776 L 53.068251817289195 93.51049125499776 L 53.068251817289195 89.28486840476762" pathFrom="M -6189.417523162183 89.78486840476762 L -6084.220280621716 89.78486840476762 L -6084.220280621716 73.45554272079244 L -6084.220280621716 89.78486840476762 L -5979.023038081249 89.78486840476762 L -5979.023038081249 93.51049125499776 L -6084.220280621716 93.51049125499776 L -6084.220280621716 113.6182855033876 L -6084.220280621716 93.51049125499776 L -6189.417523162183 93.51049125499776 L -6189.417523162183 89.28486840476762M 53.068251817289195 93.51049125499776" cy="89.78486840476762" cx="59.14307947606839" j="6" val="6626.02" barWidth="6.57482765877919"></path><path id="SvgjsPath20269" d="M 62.46086275840233 87.19542840957365 L 65.74827658779192 87.19542840957365 L 65.74827658779192 85.55721126975914 L 65.74827658779192 87.19542840957365 L 69.03569041718151 87.19542840957365 L 69.03569041718151 150.5574397205346 L 65.74827658779192 150.5574397205346 L 65.74827658779192 200.23241105689885 L 65.74827658779192 150.5574397205346 L 62.46086275840233 150.5574397205346 L 62.46086275840233 86.69542840957365" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 62.46086275840233 87.19542840957365 L 65.74827658779192 87.19542840957365 L 65.74827658779192 85.55721126975914 L 65.74827658779192 87.19542840957365 L 69.03569041718151 87.19542840957365 L 69.03569041718151 150.5574397205346 L 65.74827658779192 150.5574397205346 L 65.74827658779192 200.23241105689885 L 65.74827658779192 150.5574397205346 L 62.46086275840233 150.5574397205346 L 62.46086275840233 86.69542840957365" pathFrom="M -5888.853973046563 87.19542840957365 L -5783.656730506095 87.19542840957365 L -5783.656730506095 85.55721126975914 L -5783.656730506095 87.19542840957365 L -5678.459487965629 87.19542840957365 L -5678.459487965629 150.5574397205346 L -5783.656730506095 150.5574397205346 L -5783.656730506095 200.23241105689885 L -5783.656730506095 150.5574397205346 L -5888.853973046563 150.5574397205346 L -5888.853973046563 86.69542840957365M 62.46086275840233 150.5574397205346" cy="87.19542840957365" cx="68.53569041718151" j="7" val="6603.02" barWidth="6.57482765877919"></path><path id="SvgjsPath20270" d="M 71.85347369951545 145.3257140159585 L 75.14088752890504 145.3257140159585 L 75.14088752890504 137.31958831653537 L 75.14088752890504 145.3257140159585 L 78.42830135829463 145.3257140159585 L 78.42830135829463 147.94157686824474 L 75.14088752890504 147.94157686824474 L 75.14088752890504 161.31154255771617 L 75.14088752890504 147.94157686824474 L 71.85347369951545 147.94157686824474 L 71.85347369951545 144.8257140159585" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 71.85347369951545 145.3257140159585 L 75.14088752890504 145.3257140159585 L 75.14088752890504 137.31958831653537 L 75.14088752890504 145.3257140159585 L 78.42830135829463 145.3257140159585 L 78.42830135829463 147.94157686824474 L 75.14088752890504 147.94157686824474 L 75.14088752890504 161.31154255771617 L 75.14088752890504 147.94157686824474 L 71.85347369951545 147.94157686824474 L 71.85347369951545 144.8257140159585" pathFrom="M -5588.290422930942 145.3257140159585 L -5483.093180390475 145.3257140159585 L -5483.093180390475 137.31958831653537 L -5483.093180390475 145.3257140159585 L -5377.8959378500085 145.3257140159585 L -5377.8959378500085 147.94157686824474 L -5483.093180390475 147.94157686824474 L -5483.093180390475 161.31154255771617 L -5483.093180390475 147.94157686824474 L -5588.290422930942 147.94157686824474 L -5588.290422930942 144.8257140159585M 71.85347369951545 147.94157686824474" cy="145.3257140159585" cx="77.92830135829463" j="8" val="6604.01" barWidth="6.57482765877919"></path><path id="SvgjsPath20271" d="M 81.24608464062858 137.34601117362763 L 84.53349847001817 137.34601117362763 L 84.53349847001817 120.4882283477782 L 84.53349847001817 137.34601117362763 L 87.82091229940777 137.34601117362763 L 87.82091229940777 146.6468568706514 L 84.53349847001817 146.6468568706514 L 84.53349847001817 152.56557685966254 L 84.53349847001817 146.6468568706514 L 81.24608464062858 146.6468568706514 L 81.24608464062858 136.84601117362763" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 81.24608464062858 137.34601117362763 L 84.53349847001817 137.34601117362763 L 84.53349847001817 120.4882283477782 L 84.53349847001817 137.34601117362763 L 87.82091229940777 137.34601117362763 L 87.82091229940777 146.6468568706514 L 84.53349847001817 146.6468568706514 L 84.53349847001817 152.56557685966254 L 84.53349847001817 146.6468568706514 L 81.24608464062858 146.6468568706514 L 81.24608464062858 136.84601117362763" pathFrom="M -5287.726872815322 137.34601117362763 L -5182.529630274855 137.34601117362763 L -5182.529630274855 120.4882283477782 L -5182.529630274855 137.34601117362763 L -5077.332387734388 137.34601117362763 L -5077.332387734388 146.6468568706514 L -5182.529630274855 146.6468568706514 L -5182.529630274855 152.56557685966254 L -5182.529630274855 146.6468568706514 L -5287.726872815322 146.6468568706514 L -5287.726872815322 136.84601117362763M 81.24608464062858 146.6468568706514" cy="137.34601117362763" cx="87.32091229940777" j="9" val="6608.02" barWidth="6.57482765877919"></path><path id="SvgjsPath20272" d="M 90.63869558174171 134.99437689227852 L 93.9261094111313 134.99437689227852 L 93.9261094111313 130.31753118667257 L 93.9261094111313 134.99437689227852 L 97.2135232405209 134.99437689227852 L 97.2135232405209 137.34601117362763 L 93.9261094111313 137.34601117362763 L 93.9261094111313 153.27899400119713 L 93.9261094111313 137.34601117362763 L 90.63869558174171 137.34601117362763 L 90.63869558174171 134.49437689227852" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 90.63869558174171 134.99437689227852 L 93.9261094111313 134.99437689227852 L 93.9261094111313 130.31753118667257 L 93.9261094111313 134.99437689227852 L 97.2135232405209 134.99437689227852 L 97.2135232405209 137.34601117362763 L 93.9261094111313 137.34601117362763 L 93.9261094111313 153.27899400119713 L 93.9261094111313 137.34601117362763 L 90.63869558174171 137.34601117362763 L 90.63869558174171 134.49437689227852" pathFrom="M -4987.163322699702 134.99437689227852 L -4881.9660801592345 134.99437689227852 L -4881.9660801592345 130.31753118667257 L -4881.9660801592345 134.99437689227852 L -4776.768837618768 134.99437689227852 L -4776.768837618768 137.34601117362763 L -4881.9660801592345 137.34601117362763 L -4881.9660801592345 153.27899400119713 L -4881.9660801592345 137.34601117362763 L -4987.163322699702 137.34601117362763 L -4987.163322699702 134.49437689227852M 90.63869558174171 137.34601117362763" cy="134.99437689227852" cx="96.7135232405209" j="10" val="6608.91" barWidth="6.57482765877919"></path><path id="SvgjsPath20273" d="M 100.03130652285485 126.82971405029093 L 103.31872035224444 126.82971405029093 L 103.31872035224444 108.36013694171925 L 103.31872035224444 126.82971405029093 L 106.60613418163403 126.82971405029093 L 106.60613418163403 134.99437689227852 L 103.31872035224444 134.99437689227852 L 103.31872035224444 137.37243403072353 L 103.31872035224444 134.99437689227852 L 100.03130652285485 134.99437689227852 L 100.03130652285485 126.32971405029093" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 100.03130652285485 126.82971405029093 L 103.31872035224444 126.82971405029093 L 103.31872035224444 108.36013694171925 L 103.31872035224444 126.82971405029093 L 106.60613418163403 126.82971405029093 L 106.60613418163403 134.99437689227852 L 103.31872035224444 134.99437689227852 L 103.31872035224444 137.37243403072353 L 103.31872035224444 134.99437689227852 L 100.03130652285485 134.99437689227852 L 100.03130652285485 126.32971405029093" pathFrom="M -4686.5997725840825 126.82971405029093 L -4581.402530043615 126.82971405029093 L -4581.402530043615 108.36013694171925 L -4581.402530043615 126.82971405029093 L -4476.205287503149 126.82971405029093 L -4476.205287503149 134.99437689227852 L -4581.402530043615 134.99437689227852 L -4581.402530043615 137.37243403072353 L -4581.402530043615 134.99437689227852 L -4686.5997725840825 134.99437689227852 L -4686.5997725840825 126.32971405029093M 100.03130652285485 134.99437689227852" cy="126.82971405029093" cx="106.10613418163403" j="11" val="6612" barWidth="6.57482765877919"></path><path id="SvgjsPath20274" d="M 109.42391746396798 126.82971405029093 L 112.71133129335757 126.82971405029093 L 112.71133129335757 118.55935977992704 L 112.71133129335757 126.82971405029093 L 115.99874512274717 126.82971405029093 L 115.99874512274717 126.82971405029093 L 112.71133129335757 126.82971405029093 L 112.71133129335757 145.08790830211365 L 112.71133129335757 126.82971405029093 L 109.42391746396798 126.82971405029093 L 109.42391746396798 126.32971405029093" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 109.42391746396798 126.82971405029093 L 112.71133129335757 126.82971405029093 L 112.71133129335757 118.55935977992704 L 112.71133129335757 126.82971405029093 L 115.99874512274717 126.82971405029093 L 115.99874512274717 126.82971405029093 L 112.71133129335757 126.82971405029093 L 112.71133129335757 145.08790830211365 L 112.71133129335757 126.82971405029093 L 109.42391746396798 126.82971405029093 L 109.42391746396798 126.32971405029093" pathFrom="M -4386.036222468462 126.82971405029093 L -4280.838979927995 126.82971405029093 L -4280.838979927995 118.55935977992704 L -4280.838979927995 126.82971405029093 L -4175.641737387528 126.82971405029093 L -4175.641737387528 126.82971405029093 L -4280.838979927995 126.82971405029093 L -4280.838979927995 145.08790830211365 L -4280.838979927995 126.82971405029093 L -4386.036222468462 126.82971405029093 L -4386.036222468462 126.32971405029093M 109.42391746396798 126.82971405029093" cy="126.82971405029093" cx="115.49874512274717" j="12" val="6612" barWidth="6.57482765877919"></path><path id="SvgjsPath20275" d="M 118.8165284050811 97.8966855325707 L 122.1039422344707 97.8966855325707 L 122.1039422344707 94.80521125259475 L 122.1039422344707 97.8966855325707 L 125.39135606386029 97.8966855325707 L 125.39135606386029 126.82971405029093 L 122.1039422344707 126.82971405029093 L 122.1039422344707 136.26267403278325 L 122.1039422344707 126.82971405029093 L 118.8165284050811 126.82971405029093 L 118.8165284050811 97.3966855325707" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 118.8165284050811 97.8966855325707 L 122.1039422344707 97.8966855325707 L 122.1039422344707 94.80521125259475 L 122.1039422344707 97.8966855325707 L 125.39135606386029 97.8966855325707 L 125.39135606386029 126.82971405029093 L 122.1039422344707 126.82971405029093 L 122.1039422344707 136.26267403278325 L 122.1039422344707 126.82971405029093 L 118.8165284050811 126.82971405029093 L 118.8165284050811 97.3966855325707" pathFrom="M -4085.472672352841 97.8966855325707 L -3980.275429812374 97.8966855325707 L -3980.275429812374 94.80521125259475 L -3980.275429812374 97.8966855325707 L -3875.078187271907 97.8966855325707 L -3875.078187271907 126.82971405029093 L -3980.275429812374 126.82971405029093 L -3980.275429812374 136.26267403278325 L -3980.275429812374 126.82971405029093 L -4085.472672352841 126.82971405029093 L -4085.472672352841 97.3966855325707M 118.8165284050811 126.82971405029093" cy="97.8966855325707" cx="124.89135606386029" j="13" val="6622.95" barWidth="6.57482765877919"></path><path id="SvgjsPath20276" d="M 128.20913934619423 95.36009125156488 L 131.49655317558384 95.36009125156488 L 131.49655317558384 95.36009125156488 L 131.49655317558384 95.36009125156488 L 134.78396700497342 95.36009125156488 L 134.78396700497342 117.13252549686149 L 131.49655317558384 117.13252549686149 L 131.49655317558384 118.9028569221482 L 131.49655317558384 117.13252549686149 L 128.20913934619423 117.13252549686149 L 128.20913934619423 94.86009125156488" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 128.20913934619423 95.36009125156488 L 131.49655317558384 95.36009125156488 L 131.49655317558384 95.36009125156488 L 131.49655317558384 95.36009125156488 L 134.78396700497342 95.36009125156488 L 134.78396700497342 117.13252549686149 L 131.49655317558384 117.13252549686149 L 131.49655317558384 118.9028569221482 L 131.49655317558384 117.13252549686149 L 128.20913934619423 117.13252549686149 L 128.20913934619423 94.86009125156488" pathFrom="M -3784.9091222372213 95.36009125156488 L -3679.7118796967543 95.36009125156488 L -3679.7118796967543 95.36009125156488 L -3679.7118796967543 95.36009125156488 L -3574.5146371562873 95.36009125156488 L -3574.5146371562873 117.13252549686149 L -3679.7118796967543 117.13252549686149 L -3679.7118796967543 118.9028569221482 L -3679.7118796967543 117.13252549686149 L -3784.9091222372213 117.13252549686149 L -3784.9091222372213 94.86009125156488M 128.20913934619423 117.13252549686149" cy="95.36009125156488" cx="134.28396700497342" j="14" val="6615.67" barWidth="6.57482765877919"></path><path id="SvgjsPath20277" d="M 137.60175028730734 109.15282265453425 L 140.88916411669695 109.15282265453425 L 140.88916411669695 109.02070836906205 L 140.88916411669695 109.15282265453425 L 144.17657794608652 109.15282265453425 L 144.17657794608652 131.05737118530305 L 140.88916411669695 131.05737118530305 L 140.88916411669695 132.11428546905518 L 140.88916411669695 131.05737118530305 L 137.60175028730734 131.05737118530305 L 137.60175028730734 108.65282265453425" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 137.60175028730734 109.15282265453425 L 140.88916411669695 109.15282265453425 L 140.88916411669695 109.02070836906205 L 140.88916411669695 109.15282265453425 L 144.17657794608652 109.15282265453425 L 144.17657794608652 131.05737118530305 L 140.88916411669695 131.05737118530305 L 140.88916411669695 132.11428546905518 L 140.88916411669695 131.05737118530305 L 137.60175028730734 131.05737118530305 L 137.60175028730734 108.65282265453425" pathFrom="M -3484.345572121601 109.15282265453425 L -3379.148329581134 109.15282265453425 L -3379.148329581134 109.02070836906205 L -3379.148329581134 109.15282265453425 L -3273.951087040667 109.15282265453425 L -3273.951087040667 131.05737118530305 L -3379.148329581134 131.05737118530305 L -3379.148329581134 132.11428546905518 L -3379.148329581134 131.05737118530305 L -3484.345572121601 131.05737118530305 L -3484.345572121601 108.65282265453425M 137.60175028730734 131.05737118530305" cy="109.15282265453425" cx="143.67657794608652" j="15" val="6610.4" barWidth="6.57482765877919"></path><path id="SvgjsPath20278" d="M 146.99436122842047 119.16708549308896 L 150.28177505781008 119.16708549308896 L 150.28177505781008 98.34587410316453 L 150.28177505781008 119.16708549308896 L 153.56918888719966 119.16708549308896 L 153.56918888719966 129.47199975967305 L 150.28177505781008 129.47199975967305 L 150.28177505781008 131.05737118530305 L 150.28177505781008 129.47199975967305 L 146.99436122842047 129.47199975967305 L 146.99436122842047 118.66708549308896" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 146.99436122842047 119.16708549308896 L 150.28177505781008 119.16708549308896 L 150.28177505781008 98.34587410316453 L 150.28177505781008 119.16708549308896 L 153.56918888719966 119.16708549308896 L 153.56918888719966 129.47199975967305 L 150.28177505781008 129.47199975967305 L 150.28177505781008 131.05737118530305 L 150.28177505781008 129.47199975967305 L 146.99436122842047 129.47199975967305 L 146.99436122842047 118.66708549308896" pathFrom="M -3183.7820220059807 119.16708549308896 L -3078.5847794655137 119.16708549308896 L -3078.5847794655137 98.34587410316453 L -3078.5847794655137 119.16708549308896 L -2973.387536925047 119.16708549308896 L -2973.387536925047 129.47199975967305 L -3078.5847794655137 129.47199975967305 L -3078.5847794655137 131.05737118530305 L -3078.5847794655137 129.47199975967305 L -3183.7820220059807 129.47199975967305 L -3183.7820220059807 118.66708549308896M 146.99436122842047 129.47199975967305" cy="119.16708549308896" cx="153.06918888719966" j="16" val="6614.9" barWidth="6.57482765877919"></path><path id="SvgjsPath20279" d="M 156.3869721695336 96.57554267787782 L 159.6743859989232 96.57554267787782 L 159.6743859989232 89.30925697708153 L 159.6743859989232 96.57554267787782 L 162.9617998283128 96.57554267787782 L 162.9617998283128 119.16708549308896 L 159.6743859989232 119.16708549308896 L 159.6743859989232 123.31547405681704 L 159.6743859989232 119.16708549308896 L 156.3869721695336 119.16708549308896 L 156.3869721695336 96.07554267787782" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 156.3869721695336 96.57554267787782 L 159.6743859989232 96.57554267787782 L 159.6743859989232 89.30925697708153 L 159.6743859989232 96.57554267787782 L 162.9617998283128 96.57554267787782 L 162.9617998283128 119.16708549308896 L 159.6743859989232 119.16708549308896 L 159.6743859989232 123.31547405681704 L 159.6743859989232 119.16708549308896 L 156.3869721695336 119.16708549308896 L 156.3869721695336 96.07554267787782" pathFrom="M -2883.2184718903604 96.57554267787782 L -2778.0212293498935 96.57554267787782 L -2778.0212293498935 89.30925697708153 L -2778.0212293498935 96.57554267787782 L -2672.8239868094265 96.57554267787782 L -2672.8239868094265 119.16708549308896 L -2778.0212293498935 119.16708549308896 L -2778.0212293498935 123.31547405681704 L -2778.0212293498935 119.16708549308896 L -2883.2184718903604 119.16708549308896 L -2883.2184718903604 96.07554267787782M 156.3869721695336 119.16708549308896" cy="96.57554267787782" cx="162.4617998283128" j="17" val="6623.45" barWidth="6.57482765877919"></path><path id="SvgjsPath20280" d="M 165.77958311064674 96.49627410659741 L 169.06699694003635 96.49627410659741 L 169.06699694003635 87.19542840957365 L 169.06699694003635 96.49627410659741 L 172.35441076942593 96.49627410659741 L 172.35441076942593 104.76662837695767 L 169.06699694003635 104.76662837695767 L 169.06699694003635 109.9719312244415 L 169.06699694003635 104.76662837695767 L 165.77958311064674 104.76662837695767 L 165.77958311064674 95.99627410659741" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 165.77958311064674 96.49627410659741 L 169.06699694003635 96.49627410659741 L 169.06699694003635 87.19542840957365 L 169.06699694003635 96.49627410659741 L 172.35441076942593 96.49627410659741 L 172.35441076942593 104.76662837695767 L 169.06699694003635 104.76662837695767 L 169.06699694003635 109.9719312244415 L 169.06699694003635 104.76662837695767 L 165.77958311064674 104.76662837695767 L 165.77958311064674 95.99627410659741" pathFrom="M -2582.65492177474 96.49627410659741 L -2477.457679234273 96.49627410659741 L -2477.457679234273 87.19542840957365 L -2477.457679234273 96.49627410659741 L -2372.2604366938062 96.49627410659741 L -2372.2604366938062 104.76662837695767 L -2477.457679234273 104.76662837695767 L -2477.457679234273 109.9719312244415 L -2477.457679234273 104.76662837695767 L -2582.65492177474 104.76662837695767 L -2582.65492177474 95.99627410659741M 165.77958311064674 104.76662837695767" cy="96.49627410659741" cx="171.85441076942593" j="18" val="6620.35" barWidth="6.57482765877919"></path><path id="SvgjsPath20281" d="M 175.17219405175987 107.19753122959082 L 178.45960788114948 107.19753122959082 L 178.45960788114948 104.76662837695767 L 178.45960788114948 107.19753122959082 L 181.74702171053906 107.19753122959082 L 181.74702171053906 117.50244549617855 L 178.45960788114948 117.50244549617855 L 178.45960788114948 131.98217118358298 L 178.45960788114948 117.50244549617855 L 175.17219405175987 117.50244549617855 L 175.17219405175987 106.69753122959082" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 175.17219405175987 107.19753122959082 L 178.45960788114948 107.19753122959082 L 178.45960788114948 104.76662837695767 L 178.45960788114948 107.19753122959082 L 181.74702171053906 107.19753122959082 L 181.74702171053906 117.50244549617855 L 178.45960788114948 117.50244549617855 L 178.45960788114948 131.98217118358298 L 178.45960788114948 117.50244549617855 L 175.17219405175987 117.50244549617855 L 175.17219405175987 106.69753122959082" pathFrom="M -2282.0913716591203 107.19753122959082 L -2176.8941291186534 107.19753122959082 L -2176.8941291186534 104.76662837695767 L -2176.8941291186534 107.19753122959082 L -2071.6968865781864 107.19753122959082 L -2071.6968865781864 117.50244549617855 L -2176.8941291186534 117.50244549617855 L -2176.8941291186534 131.98217118358298 L -2176.8941291186534 117.50244549617855 L -2282.0913716591203 117.50244549617855 L -2282.0913716591203 106.69753122959082M 175.17219405175987 117.50244549617855" cy="107.19753122959082" cx="181.24702171053906" j="19" val="6615.53" barWidth="6.57482765877919"></path><path id="SvgjsPath20282" d="M 184.564804992873 117.50244549617855 L 187.8522188222626 117.50244549617855 L 187.8522188222626 111.16095979366219 L 187.8522188222626 117.50244549617855 L 191.1396326516522 117.50244549617855 L 191.1396326516522 118.40082263736622 L 187.8522188222626 118.40082263736622 L 187.8522188222626 132.11428546905518 L 187.8522188222626 118.40082263736622 L 184.564804992873 118.40082263736622 L 184.564804992873 117.00244549617855" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 184.564804992873 117.50244549617855 L 187.8522188222626 117.50244549617855 L 187.8522188222626 111.16095979366219 L 187.8522188222626 117.50244549617855 L 191.1396326516522 117.50244549617855 L 191.1396326516522 118.40082263736622 L 187.8522188222626 118.40082263736622 L 187.8522188222626 132.11428546905518 L 187.8522188222626 118.40082263736622 L 184.564804992873 118.40082263736622 L 184.564804992873 117.00244549617855" pathFrom="M -1981.5278215435 117.50244549617855 L -1876.330579003033 117.50244549617855 L -1876.330579003033 111.16095979366219 L -1876.330579003033 117.50244549617855 L -1771.133336462566 117.50244549617855 L -1771.133336462566 118.40082263736622 L -1876.330579003033 118.40082263736622 L -1876.330579003033 132.11428546905518 L -1876.330579003033 118.40082263736622 L -1981.5278215435 118.40082263736622 L -1981.5278215435 117.00244549617855M 184.564804992873 118.40082263736622" cy="117.50244549617855" cx="190.6396326516522" j="20" val="6615.19" barWidth="6.57482765877919"></path><path id="SvgjsPath20283" d="M 193.95741593398614 105.69142837524487 L 197.24482976337575 105.69142837524487 L 197.24482976337575 101.46377124023275 L 197.24482976337575 105.69142837524487 L 200.53224359276533 105.69142837524487 L 200.53224359276533 118.40082263736622 L 197.24482976337575 118.40082263736622 L 197.24482976337575 136.87039974594154 L 197.24482976337575 118.40082263736622 L 193.95741593398614 118.40082263736622 L 193.95741593398614 105.19142837524487" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 193.95741593398614 105.69142837524487 L 197.24482976337575 105.69142837524487 L 197.24482976337575 101.46377124023275 L 197.24482976337575 105.69142837524487 L 200.53224359276533 105.69142837524487 L 200.53224359276533 118.40082263736622 L 197.24482976337575 118.40082263736622 L 197.24482976337575 136.87039974594154 L 197.24482976337575 118.40082263736622 L 193.95741593398614 118.40082263736622 L 193.95741593398614 105.19142837524487" pathFrom="M -1680.9642714278798 105.69142837524487 L -1575.7670288874128 105.69142837524487 L -1575.7670288874128 101.46377124023275 L -1575.7670288874128 105.69142837524487 L -1470.5697863469456 105.69142837524487 L -1470.5697863469456 118.40082263736622 L -1575.7670288874128 118.40082263736622 L -1575.7670288874128 136.87039974594154 L -1575.7670288874128 118.40082263736622 L -1680.9642714278798 118.40082263736622 L -1680.9642714278798 105.19142837524487M 193.95741593398614 118.40082263736622" cy="105.69142837524487" cx="200.03224359276533" j="21" val="6620" barWidth="6.57482765877919"></path><path id="SvgjsPath20284" d="M 203.35002687509927 105.69142837524487 L 206.63744070448888 105.69142837524487 L 206.63744070448888 92.03081125774406 L 206.63744070448888 105.69142837524487 L 209.92485453387846 105.69142837524487 L 209.92485453387846 106.9068798015578 L 206.63744070448888 106.9068798015578 L 206.63744070448888 121.14879977512464 L 206.63744070448888 106.9068798015578 L 203.35002687509927 106.9068798015578 L 203.35002687509927 105.19142837524487" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 203.35002687509927 105.69142837524487 L 206.63744070448888 105.69142837524487 L 206.63744070448888 92.03081125774406 L 206.63744070448888 105.69142837524487 L 209.92485453387846 105.69142837524487 L 209.92485453387846 106.9068798015578 L 206.63744070448888 106.9068798015578 L 206.63744070448888 121.14879977512464 L 206.63744070448888 106.9068798015578 L 203.35002687509927 106.9068798015578 L 203.35002687509927 105.19142837524487" pathFrom="M -1380.4007213122597 105.69142837524487 L -1275.2034787717928 105.69142837524487 L -1275.2034787717928 92.03081125774406 L -1275.2034787717928 105.69142837524487 L -1170.0062362313256 105.69142837524487 L -1170.0062362313256 106.9068798015578 L -1275.2034787717928 106.9068798015578 L -1275.2034787717928 121.14879977512464 L -1275.2034787717928 106.9068798015578 L -1380.4007213122597 106.9068798015578 L -1380.4007213122597 105.19142837524487M 203.35002687509927 106.9068798015578" cy="105.69142837524487" cx="209.42485453387846" j="22" val="6620" barWidth="6.57482765877919"></path><path id="SvgjsPath20285" d="M 212.7426378162124 93.51049125499776 L 216.03005164560201 93.51049125499776 L 216.03005164560201 68.30308558750039 L 216.03005164560201 93.51049125499776 L 219.3174654749916 93.51049125499776 L 219.3174654749916 104.81947409114582 L 216.03005164560201 104.81947409114582 L 216.03005164560201 112.98413693313705 L 216.03005164560201 104.81947409114582 L 212.7426378162124 104.81947409114582 L 212.7426378162124 93.01049125499776" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 212.7426378162124 93.51049125499776 L 216.03005164560201 93.51049125499776 L 216.03005164560201 68.30308558750039 L 216.03005164560201 93.51049125499776 L 219.3174654749916 93.51049125499776 L 219.3174654749916 104.81947409114582 L 216.03005164560201 104.81947409114582 L 216.03005164560201 112.98413693313705 L 216.03005164560201 104.81947409114582 L 212.7426378162124 104.81947409114582 L 212.7426378162124 93.01049125499776" pathFrom="M -1079.8371711966395 93.51049125499776 L -974.6399286561724 93.51049125499776 L -974.6399286561724 68.30308558750039 L -974.6399286561724 93.51049125499776 L -869.4426861157053 93.51049125499776 L -869.4426861157053 104.81947409114582 L -974.6399286561724 104.81947409114582 L -974.6399286561724 112.98413693313705 L -974.6399286561724 104.81947409114582 L -1079.8371711966395 104.81947409114582 L -1079.8371711966395 93.01049125499776M 212.7426378162124 104.81947409114582" cy="93.51049125499776" cx="218.8174654749916" j="23" val="6624.61" barWidth="6.57482765877919"></path><path id="SvgjsPath20286" d="M 222.13524875732554 89.96982840442433 L 225.42266258671515 89.96982840442433 L 225.42266258671515 89.83771411895577 L 225.42266258671515 89.96982840442433 L 228.71007641610473 89.96982840442433 L 228.71007641610473 112.08575979194575 L 225.42266258671515 112.08575979194575 L 225.42266258671515 127.72809119148224 L 225.42266258671515 112.08575979194575 L 222.13524875732554 112.08575979194575 L 222.13524875732554 89.46982840442433" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 222.13524875732554 89.96982840442433 L 225.42266258671515 89.96982840442433 L 225.42266258671515 89.83771411895577 L 225.42266258671515 89.96982840442433 L 228.71007641610473 89.96982840442433 L 228.71007641610473 112.08575979194575 L 225.42266258671515 112.08575979194575 L 225.42266258671515 127.72809119148224 L 225.42266258671515 112.08575979194575 L 222.13524875732554 112.08575979194575 L 222.13524875732554 89.46982840442433" pathFrom="M -779.2736210810194 89.96982840442433 L -674.0763785405524 89.96982840442433 L -674.0763785405524 89.83771411895577 L -674.0763785405524 89.96982840442433 L -568.8791360000853 89.96982840442433 L -568.8791360000853 112.08575979194575 L -674.0763785405524 112.08575979194575 L -674.0763785405524 127.72809119148224 L -674.0763785405524 112.08575979194575 L -779.2736210810194 112.08575979194575 L -779.2736210810194 89.46982840442433M 222.13524875732554 112.08575979194575" cy="89.96982840442433" cx="228.21007641610473" j="24" val="6617.58" barWidth="6.57482765877919"></path><path id="SvgjsPath20287" d="M 231.52785969843865 108.33371408462335 L 234.81527352782825 108.33371408462335 L 234.81527352782825 89.91698269023618 L 234.81527352782825 108.33371408462335 L 238.10268735721783 108.33371408462335 L 238.10268735721783 161.54934827156103 L 234.81527352782825 161.54934827156103 L 234.81527352782825 171.03515396823786 L 234.81527352782825 161.54934827156103 L 231.52785969843865 161.54934827156103 L 231.52785969843865 107.83371408462335" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 231.52785969843865 108.33371408462335 L 234.81527352782825 108.33371408462335 L 234.81527352782825 89.91698269023618 L 234.81527352782825 108.33371408462335 L 238.10268735721783 108.33371408462335 L 238.10268735721783 161.54934827156103 L 234.81527352782825 161.54934827156103 L 234.81527352782825 171.03515396823786 L 234.81527352782825 161.54934827156103 L 231.52785969843865 161.54934827156103 L 231.52785969843865 107.83371408462335" pathFrom="M -478.71007096539915 108.33371408462335 L -373.5128284249321 108.33371408462335 L -373.5128284249321 89.91698269023618 L -373.5128284249321 108.33371408462335 L -268.31558588446507 108.33371408462335 L -268.31558588446507 161.54934827156103 L -373.5128284249321 161.54934827156103 L -373.5128284249321 171.03515396823786 L -373.5128284249321 161.54934827156103 L -478.71007096539915 161.54934827156103 L -478.71007096539915 107.83371408462335M 231.52785969843865 161.54934827156103" cy="108.33371408462335" cx="237.60268735721783" j="25" val="6598.86" barWidth="6.57482765877919"></path><path id="SvgjsPath20288" d="M 240.92047063955178 161.54934827156103 L 244.2078844689414 161.54934827156103 L 244.2078844689414 161.49650255737288 L 244.2078844689414 161.54934827156103 L 247.49529829833097 161.54934827156103 L 247.49529829833097 192.46409107132058 L 244.2078844689414 192.46409107132058 L 244.2078844689414 237.80571384430004 L 244.2078844689414 192.46409107132058 L 240.92047063955178 192.46409107132058 L 240.92047063955178 161.04934827156103" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 240.92047063955178 161.54934827156103 L 244.2078844689414 161.54934827156103 L 244.2078844689414 161.49650255737288 L 244.2078844689414 161.54934827156103 L 247.49529829833097 161.54934827156103 L 247.49529829833097 192.46409107132058 L 244.2078844689414 192.46409107132058 L 244.2078844689414 237.80571384430004 L 244.2078844689414 192.46409107132058 L 240.92047063955178 192.46409107132058 L 240.92047063955178 161.04934827156103" pathFrom="M -178.14652084977902 161.54934827156103 L -72.94927830931198 161.54934827156103 L -72.94927830931198 161.49650255737288 L -72.94927830931198 161.54934827156103 L 32.247964231155066 161.54934827156103 L 32.247964231155066 192.46409107132058 L -72.94927830931198 192.46409107132058 L -72.94927830931198 237.80571384430004 L -72.94927830931198 192.46409107132058 L -178.14652084977902 192.46409107132058 L -178.14652084977902 161.04934827156103M 240.92047063955178 192.46409107132058" cy="161.54934827156103" cx="246.99529829833097" j="26" val="6587.16" barWidth="6.57482765877919"></path><path id="SvgjsPath20289" d="M 250.3130815806649 175.97622824478094 L 253.60049541005452 175.97622824478094 L 253.60049541005452 158.53714256286548 L 253.60049541005452 175.97622824478094 L 256.8879092394441 175.97622824478094 L 256.8879092394441 187.97220536537134 L 253.60049541005452 187.97220536537134 L 253.60049541005452 211.3828567504861 L 253.60049541005452 187.97220536537134 L 250.3130815806649 187.97220536537134 L 250.3130815806649 175.47622824478094" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 250.3130815806649 175.97622824478094 L 253.60049541005452 175.97622824478094 L 253.60049541005452 158.53714256286548 L 253.60049541005452 175.97622824478094 L 256.8879092394441 175.97622824478094 L 256.8879092394441 187.97220536537134 L 253.60049541005452 187.97220536537134 L 253.60049541005452 211.3828567504861 L 253.60049541005452 187.97220536537134 L 250.3130815806649 187.97220536537134 L 250.3130815806649 175.47622824478094" pathFrom="M 122.41702926584117 175.97622824478094 L 227.6142718063082 175.97622824478094 L 227.6142718063082 158.53714256286548 L 227.6142718063082 175.97622824478094 L 332.81151434677525 175.97622824478094 L 332.81151434677525 187.97220536537134 L 227.6142718063082 187.97220536537134 L 227.6142718063082 211.3828567504861 L 227.6142718063082 187.97220536537134 L 122.41702926584117 187.97220536537134 L 122.41702926584117 175.47622824478094M 250.3130815806649 187.97220536537134" cy="175.97622824478094" cx="256.3879092394441" j="27" val="6593.4" barWidth="6.57482765877919"></path><path id="SvgjsPath20290" d="M 259.7056925217781 174.41727967624684 L 262.9931063511677 174.41727967624684 L 262.9931063511677 161.47007970027698 L 262.9931063511677 174.41727967624684 L 266.2805201805573 174.41727967624684 L 266.2805201805573 190.74660536021838 L 262.9931063511677 190.74660536021838 L 262.9931063511677 198.17142820358276 L 262.9931063511677 190.74660536021838 L 259.7056925217781 190.74660536021838 L 259.7056925217781 173.91727967624684" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 259.7056925217781 174.41727967624684 L 262.9931063511677 174.41727967624684 L 262.9931063511677 161.47007970027698 L 262.9931063511677 174.41727967624684 L 266.2805201805573 174.41727967624684 L 266.2805201805573 190.74660536021838 L 262.9931063511677 190.74660536021838 L 262.9931063511677 198.17142820358276 L 262.9931063511677 190.74660536021838 L 259.7056925217781 190.74660536021838 L 259.7056925217781 173.91727967624684" pathFrom="M 422.9805793814613 174.41727967624684 L 528.1778219219284 174.41727967624684 L 528.1778219219284 161.47007970027698 L 528.1778219219284 174.41727967624684 L 633.3750644623954 174.41727967624684 L 633.3750644623954 190.74660536021838 L 528.1778219219284 190.74660536021838 L 528.1778219219284 198.17142820358276 L 528.1778219219284 190.74660536021838 L 422.9805793814613 190.74660536021838 L 422.9805793814613 173.91727967624684M 259.7056925217781 190.74660536021838" cy="174.41727967624684" cx="265.7805201805573" j="28" val="6587.81" barWidth="6.57482765877919"></path><path id="SvgjsPath20291" d="M 269.0983034628912 190.74660536021838 L 272.3857172922808 190.74660536021838 L 272.3857172922808 177.74655967006765 L 272.3857172922808 190.74660536021838 L 275.6731311216704 190.74660536021838 L 275.6731311216704 216.66742816925034 L 272.3857172922808 216.66742816925034 L 272.3857172922808 245.3626509731257 L 272.3857172922808 216.66742816925034 L 269.0983034628912 216.66742816925034 L 269.0983034628912 190.24660536021838" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 269.0983034628912 190.74660536021838 L 272.3857172922808 190.74660536021838 L 272.3857172922808 177.74655967006765 L 272.3857172922808 190.74660536021838 L 275.6731311216704 190.74660536021838 L 275.6731311216704 216.66742816925034 L 272.3857172922808 216.66742816925034 L 272.3857172922808 245.3626509731257 L 272.3857172922808 216.66742816925034 L 269.0983034628912 216.66742816925034 L 269.0983034628912 190.24660536021838" pathFrom="M 723.5441294970815 190.74660536021838 L 828.7413720375486 190.74660536021838 L 828.7413720375486 177.74655967006765 L 828.7413720375486 190.74660536021838 L 933.9386145780156 190.74660536021838 L 933.9386145780156 216.66742816925034 L 828.7413720375486 216.66742816925034 L 828.7413720375486 245.3626509731257 L 828.7413720375486 216.66742816925034 L 723.5441294970815 216.66742816925034 L 723.5441294970815 190.24660536021838M 269.0983034628912 216.66742816925034" selected="true" cy="190.74660536021838" cx="275.1731311216704" j="29" val="6578" barWidth="6.57482765877919"></path><path id="SvgjsPath20292" d="M 278.4909144040043 214.02514245986822 L 281.7783282333939 214.02514245986822 L 281.7783282333939 206.83812533035234 L 281.7783282333939 214.02514245986822 L 285.0657420627835 214.02514245986822 L 285.0657420627835 215.74262817096678 L 281.7783282333939 215.74262817096678 L 281.7783282333939 244.7020795457829 L 281.7783282333939 215.74262817096678 L 278.4909144040043 215.74262817096678 L 278.4909144040043 213.52514245986822" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 278.4909144040043 214.02514245986822 L 281.7783282333939 214.02514245986822 L 281.7783282333939 206.83812533035234 L 281.7783282333939 214.02514245986822 L 285.0657420627835 214.02514245986822 L 285.0657420627835 215.74262817096678 L 281.7783282333939 215.74262817096678 L 281.7783282333939 244.7020795457829 L 281.7783282333939 215.74262817096678 L 278.4909144040043 215.74262817096678 L 278.4909144040043 213.52514245986822" pathFrom="M 1024.1076796127018 214.02514245986822 L 1129.3049221531687 214.02514245986822 L 1129.3049221531687 206.83812533035234 L 1129.3049221531687 214.02514245986822 L 1234.502164693636 214.02514245986822 L 1234.502164693636 215.74262817096678 L 1129.3049221531687 215.74262817096678 L 1129.3049221531687 244.7020795457829 L 1129.3049221531687 215.74262817096678 L 1024.1076796127018 215.74262817096678 L 1024.1076796127018 213.52514245986822M 278.4909144040043 215.74262817096678" cy="214.02514245986822" cx="284.5657420627835" j="30" val="6579" barWidth="6.57482765877919"></path><path id="SvgjsPath20293" d="M 287.88352534511745 213.02107389030425 L 291.17093917450705 213.02107389030425 L 291.17093917450705 208.95195389785658 L 291.17093917450705 213.02107389030425 L 294.45835300389666 213.02107389030425 L 294.45835300389666 222.05769101638725 L 291.17093917450705 222.05769101638725 L 291.17093917450705 246.34029668559742 L 291.17093917450705 222.05769101638725 L 287.88352534511745 222.05769101638725 L 287.88352534511745 212.52107389030425" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 287.88352534511745 213.02107389030425 L 291.17093917450705 213.02107389030425 L 291.17093917450705 208.95195389785658 L 291.17093917450705 213.02107389030425 L 294.45835300389666 213.02107389030425 L 294.45835300389666 222.05769101638725 L 291.17093917450705 222.05769101638725 L 291.17093917450705 246.34029668559742 L 291.17093917450705 222.05769101638725 L 287.88352534511745 222.05769101638725 L 287.88352534511745 212.52107389030425" pathFrom="M 1324.671229728322 213.02107389030425 L 1429.868472268789 213.02107389030425 L 1429.868472268789 208.95195389785658 L 1429.868472268789 213.02107389030425 L 1535.0657148092562 213.02107389030425 L 1535.0657148092562 222.05769101638725 L 1429.868472268789 222.05769101638725 L 1429.868472268789 246.34029668559742 L 1429.868472268789 222.05769101638725 L 1324.671229728322 222.05769101638725 L 1324.671229728322 212.52107389030425M 287.88352534511745 222.05769101638725" cy="213.02107389030425" cx="293.95835300389666" j="31" val="6575.96" barWidth="6.57482765877919"></path><path id="SvgjsPath20294" d="M 297.27613628623055 187.81366822280688 L 300.56355011562016 187.81366822280688 L 300.56355011562016 187.6022853660579 L 300.56355011562016 187.81366822280688 L 303.85096394500977 187.81366822280688 L 303.85096394500977 222.05769101638725 L 300.56355011562016 222.05769101638725 L 300.56355011562016 233.1288681386941 L 300.56355011562016 222.05769101638725 L 297.27613628623055 222.05769101638725 L 297.27613628623055 187.31366822280688" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 297.27613628623055 187.81366822280688 L 300.56355011562016 187.81366822280688 L 300.56355011562016 187.6022853660579 L 300.56355011562016 187.81366822280688 L 303.85096394500977 187.81366822280688 L 303.85096394500977 222.05769101638725 L 300.56355011562016 222.05769101638725 L 300.56355011562016 233.1288681386941 L 300.56355011562016 222.05769101638725 L 297.27613628623055 222.05769101638725 L 297.27613628623055 187.31366822280688" pathFrom="M 1625.234779843942 187.81366822280688 L 1730.432022384409 187.81366822280688 L 1730.432022384409 187.6022853660579 L 1730.432022384409 187.81366822280688 L 1835.6292649248762 187.81366822280688 L 1835.6292649248762 222.05769101638725 L 1730.432022384409 222.05769101638725 L 1730.432022384409 233.1288681386941 L 1730.432022384409 222.05769101638725 L 1625.234779843942 222.05769101638725 L 1625.234779843942 187.31366822280688M 297.27613628623055 222.05769101638725" cy="187.81366822280688" cx="303.35096394500977" j="32" val="6588.92" barWidth="6.57482765877919"></path><path id="SvgjsPath20295" d="M 306.6687472273437 187.02098250999188 L 309.9561610567333 187.02098250999188 L 309.9561610567333 174.39085681915094 L 309.9561610567333 187.02098250999188 L 313.24357488612293 187.02098250999188 L 313.24357488612293 187.81366822280688 L 309.9561610567333 187.81366822280688 L 309.9561610567333 217.85645673847102 L 309.9561610567333 187.81366822280688 L 306.6687472273437 187.81366822280688 L 306.6687472273437 186.52098250999188" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 306.6687472273437 187.02098250999188 L 309.9561610567333 187.02098250999188 L 309.9561610567333 174.39085681915094 L 309.9561610567333 187.02098250999188 L 313.24357488612293 187.02098250999188 L 313.24357488612293 187.81366822280688 L 309.9561610567333 187.81366822280688 L 309.9561610567333 217.85645673847102 L 309.9561610567333 187.81366822280688 L 306.6687472273437 187.81366822280688 L 306.6687472273437 186.52098250999188" pathFrom="M 1925.7983299595624 187.02098250999188 L 2030.9955725000293 187.02098250999188 L 2030.9955725000293 174.39085681915094 L 2030.9955725000293 187.02098250999188 L 2136.1928150404965 187.02098250999188 L 2136.1928150404965 187.81366822280688 L 2030.9955725000293 187.81366822280688 L 2030.9955725000293 217.85645673847102 L 2030.9955725000293 187.81366822280688 L 1925.7983299595624 187.81366822280688 L 1925.7983299595624 186.52098250999188M 306.6687472273437 187.81366822280688" cy="187.02098250999188" cx="312.74357488612293" j="33" val="6589.22" barWidth="6.57482765877919"></path><path id="SvgjsPath20296" d="M 316.0613581684568 168.89490254363773 L 319.3487719978464 168.89490254363773 L 319.3487719978464 161.47007970027698 L 319.3487719978464 168.89490254363773 L 322.63618582723603 168.89490254363773 L 322.63618582723603 186.8095996532429 L 319.3487719978464 186.8095996532429 L 319.3487719978464 187.33805679511715 L 319.3487719978464 186.8095996532429 L 316.0613581684568 186.8095996532429 L 316.0613581684568 168.39490254363773" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 316.0613581684568 168.89490254363773 L 319.3487719978464 168.89490254363773 L 319.3487719978464 161.47007970027698 L 319.3487719978464 168.89490254363773 L 322.63618582723603 168.89490254363773 L 322.63618582723603 186.8095996532429 L 319.3487719978464 186.8095996532429 L 319.3487719978464 187.33805679511715 L 319.3487719978464 186.8095996532429 L 316.0613581684568 186.8095996532429 L 316.0613581684568 168.39490254363773" pathFrom="M 2226.3618800751824 168.89490254363773 L 2331.5591226156494 168.89490254363773 L 2331.5591226156494 161.47007970027698 L 2331.5591226156494 168.89490254363773 L 2436.7563651561163 168.89490254363773 L 2436.7563651561163 186.8095996532429 L 2331.5591226156494 186.8095996532429 L 2331.5591226156494 187.33805679511715 L 2331.5591226156494 186.8095996532429 L 2226.3618800751824 186.8095996532429 L 2226.3618800751824 168.39490254363773M 316.0613581684568 186.8095996532429" cy="168.89490254363773" cx="322.13618582723603" j="34" val="6596.08" barWidth="6.57482765877919"></path><path id="SvgjsPath20297" d="M 325.45396910957 165.14285683631897 L 328.7413829389596 165.14285683631897 L 328.7413829389596 158.53714256286548 L 328.7413829389596 165.14285683631897 L 332.0287967683492 165.14285683631897 L 332.0287967683492 168.4457139730439 L 328.7413829389596 168.4457139730439 L 328.7413829389596 189.21407964878017 L 328.7413829389596 168.4457139730439 L 325.45396910957 168.4457139730439 L 325.45396910957 164.64285683631897" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 325.45396910957 165.14285683631897 L 328.7413829389596 165.14285683631897 L 328.7413829389596 158.53714256286548 L 328.7413829389596 165.14285683631897 L 332.0287967683492 165.14285683631897 L 332.0287967683492 168.4457139730439 L 328.7413829389596 168.4457139730439 L 328.7413829389596 189.21407964878017 L 328.7413829389596 168.4457139730439 L 325.45396910957 168.4457139730439 L 325.45396910957 164.64285683631897" pathFrom="M 2526.9254301908027 165.14285683631897 L 2632.1226727312696 165.14285683631897 L 2632.1226727312696 158.53714256286548 L 2632.1226727312696 165.14285683631897 L 2737.3199152717366 165.14285683631897 L 2737.3199152717366 168.4457139730439 L 2632.1226727312696 168.4457139730439 L 2632.1226727312696 189.21407964878017 L 2632.1226727312696 168.4457139730439 L 2526.9254301908027 168.4457139730439 L 2526.9254301908027 164.64285683631897M 325.45396910957 168.4457139730439" cy="165.14285683631897" cx="331.5287967683492" j="35" val="6596.25" barWidth="6.57482765877919"></path><path id="SvgjsPath20298" d="M 334.8465800506831 163.74244541034568 L 338.1339938800727 163.74244541034568 L 338.1339938800727 158.53714256286548 L 338.1339938800727 163.74244541034568 L 341.4214077094623 163.74244541034568 L 341.4214077094623 169.18555397167074 L 338.1339938800727 169.18555397167074 L 338.1339938800727 188.3157025075925 L 338.1339938800727 169.18555397167074 L 334.8465800506831 169.18555397167074 L 334.8465800506831 163.24244541034568" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 334.8465800506831 163.74244541034568 L 338.1339938800727 163.74244541034568 L 338.1339938800727 158.53714256286548 L 338.1339938800727 163.74244541034568 L 341.4214077094623 163.74244541034568 L 341.4214077094623 169.18555397167074 L 338.1339938800727 169.18555397167074 L 338.1339938800727 188.3157025075925 L 338.1339938800727 169.18555397167074 L 334.8465800506831 169.18555397167074 L 334.8465800506831 163.24244541034568" pathFrom="M 2827.488980306423 163.74244541034568 L 2932.68622284689 163.74244541034568 L 2932.68622284689 158.53714256286548 L 2932.68622284689 163.74244541034568 L 3037.883465387357 163.74244541034568 L 3037.883465387357 169.18555397167074 L 2932.68622284689 169.18555397167074 L 2932.68622284689 188.3157025075925 L 2932.68622284689 169.18555397167074 L 2827.488980306423 169.18555397167074 L 2827.488980306423 163.24244541034568M 334.8465800506831 169.18555397167074" cy="163.74244541034568" cx="340.9214077094623" j="36" val="6595.97" barWidth="6.57482765877919"></path><path id="SvgjsPath20299" d="M 344.23919099179625 153.25257114410124 L 347.52660482118586 153.25257114410124 L 347.52660482118586 153.22614828700898 L 347.52660482118586 153.25257114410124 L 350.81401865057546 153.25257114410124 L 350.81401865057546 169.18555397167074 L 347.52660482118586 169.18555397167074 L 347.52660482118586 189.79538250484256 L 347.52660482118586 169.18555397167074 L 344.23919099179625 169.18555397167074 L 344.23919099179625 152.75257114410124" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 344.23919099179625 153.25257114410124 L 347.52660482118586 153.25257114410124 L 347.52660482118586 153.22614828700898 L 347.52660482118586 153.25257114410124 L 350.81401865057546 153.25257114410124 L 350.81401865057546 169.18555397167074 L 347.52660482118586 169.18555397167074 L 347.52660482118586 189.79538250484256 L 347.52660482118586 169.18555397167074 L 344.23919099179625 169.18555397167074 L 344.23919099179625 152.75257114410124" pathFrom="M 3128.052530422043 153.25257114410124 L 3233.24977296251 153.25257114410124 L 3233.24977296251 153.22614828700898 L 3233.24977296251 153.25257114410124 L 3338.447015502977 153.25257114410124 L 3338.447015502977 169.18555397167074 L 3233.24977296251 169.18555397167074 L 3233.24977296251 189.79538250484256 L 3233.24977296251 169.18555397167074 L 3128.052530422043 169.18555397167074 L 3128.052530422043 152.75257114410124M 344.23919099179625 169.18555397167074" cy="153.25257114410124" cx="350.31401865057546" j="37" val="6602" barWidth="6.57482765877919"></path><path id="SvgjsPath20300" d="M 353.63180193290935 153.25257114410124 L 356.91921576229896 153.25257114410124 L 356.91921576229896 140.0411425971979 L 356.91921576229896 153.25257114410124 L 360.20662959168857 153.25257114410124 L 360.20662959168857 158.66925684833404 L 356.91921576229896 158.66925684833404 L 356.91921576229896 167.7587196886052 L 356.91921576229896 158.66925684833404 L 353.63180193290935 158.66925684833404 L 353.63180193290935 152.75257114410124" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 353.63180193290935 153.25257114410124 L 356.91921576229896 153.25257114410124 L 356.91921576229896 140.0411425971979 L 356.91921576229896 153.25257114410124 L 360.20662959168857 153.25257114410124 L 360.20662959168857 158.66925684833404 L 356.91921576229896 158.66925684833404 L 356.91921576229896 167.7587196886052 L 356.91921576229896 158.66925684833404 L 353.63180193290935 158.66925684833404 L 353.63180193290935 152.75257114410124" pathFrom="M 3428.616080537663 153.25257114410124 L 3533.81332307813 153.25257114410124 L 3533.81332307813 140.0411425971979 L 3533.81332307813 153.25257114410124 L 3639.010565618597 153.25257114410124 L 3639.010565618597 158.66925684833404 L 3533.81332307813 158.66925684833404 L 3533.81332307813 167.7587196886052 L 3533.81332307813 158.66925684833404 L 3428.616080537663 158.66925684833404 L 3428.616080537663 152.75257114410124M 353.63180193290935 158.66925684833404" cy="153.25257114410124" cx="359.70662959168857" j="38" val="6599.95" barWidth="6.57482765877919"></path><path id="SvgjsPath20301" d="M 363.0244128740225 156.87250256595507 L 366.3118267034121 156.87250256595507 L 366.3118267034121 155.33997685451322 L 366.3118267034121 156.87250256595507 L 369.59924053280173 156.87250256595507 L 369.59924053280173 182.26486823310552 L 366.3118267034121 182.26486823310552 L 366.3118267034121 183.92950823001593 L 366.3118267034121 182.26486823310552 L 363.0244128740225 182.26486823310552 L 363.0244128740225 156.37250256595507" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 363.0244128740225 156.87250256595507 L 366.3118267034121 156.87250256595507 L 366.3118267034121 155.33997685451322 L 366.3118267034121 156.87250256595507 L 369.59924053280173 156.87250256595507 L 369.59924053280173 182.26486823310552 L 366.3118267034121 182.26486823310552 L 366.3118267034121 183.92950823001593 L 366.3118267034121 182.26486823310552 L 363.0244128740225 182.26486823310552 L 363.0244128740225 156.37250256595507" pathFrom="M 3729.1796306532833 156.87250256595507 L 3834.3768731937503 156.87250256595507 L 3834.3768731937503 155.33997685451322 L 3834.3768731937503 156.87250256595507 L 3939.5741157342172 156.87250256595507 L 3939.5741157342172 182.26486823310552 L 3834.3768731937503 182.26486823310552 L 3834.3768731937503 183.92950823001593 L 3834.3768731937503 182.26486823310552 L 3729.1796306532833 182.26486823310552 L 3729.1796306532833 156.37250256595507M 363.0244128740225 182.26486823310552" cy="156.87250256595507" cx="369.09924053280173" j="39" val="6591.02" barWidth="6.57482765877919"></path><path id="SvgjsPath20302" d="M 372.4170238151356 182.26486823310552 L 375.7044376445252 182.26486823310552 L 375.7044376445252 150.39890257797015 L 375.7044376445252 182.26486823310552 L 378.99185147391483 182.26486823310552 L 378.99185147391483 182.31771394729367 L 375.7044376445252 182.31771394729367 L 375.7044376445252 182.31771394729367 L 375.7044376445252 182.31771394729367 L 372.4170238151356 182.31771394729367 L 372.4170238151356 181.76486823310552" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 372.4170238151356 182.26486823310552 L 375.7044376445252 182.26486823310552 L 375.7044376445252 150.39890257797015 L 375.7044376445252 182.26486823310552 L 378.99185147391483 182.26486823310552 L 378.99185147391483 182.31771394729367 L 375.7044376445252 182.31771394729367 L 375.7044376445252 182.31771394729367 L 375.7044376445252 182.31771394729367 L 372.4170238151356 182.31771394729367 L 372.4170238151356 181.76486823310552" pathFrom="M 4029.743180768904 182.26486823310552 L 4134.940423309371 182.26486823310552 L 4134.940423309371 150.39890257797015 L 4134.940423309371 182.26486823310552 L 4240.137665849838 182.26486823310552 L 4240.137665849838 182.31771394729367 L 4134.940423309371 182.31771394729367 L 4134.940423309371 182.31771394729367 L 4134.940423309371 182.31771394729367 L 4029.743180768904 182.31771394729367 L 4029.743180768904 181.76486823310552M 372.4170238151356 182.31771394729367" cy="182.26486823310552" cx="378.49185147391483" j="40" val="6591" barWidth="6.57482765877919"></path><path id="SvgjsPath20303" d="M 381.8096347562487 179.67542823791518 L 385.09704858563833 179.67542823791518 L 385.09704858563833 155.04932542648385 L 385.09704858563833 179.67542823791518 L 388.38446241502794 179.67542823791518 L 388.38446241502794 182.31771394729367 L 385.09704858563833 182.31771394729367 L 385.09704858563833 198.17142820358276 L 385.09704858563833 182.31771394729367 L 381.8096347562487 182.31771394729367 L 381.8096347562487 179.17542823791518" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 381.8096347562487 179.67542823791518 L 385.09704858563833 179.67542823791518 L 385.09704858563833 155.04932542648385 L 385.09704858563833 179.67542823791518 L 388.38446241502794 179.67542823791518 L 388.38446241502794 182.31771394729367 L 385.09704858563833 182.31771394729367 L 385.09704858563833 198.17142820358276 L 385.09704858563833 182.31771394729367 L 381.8096347562487 182.31771394729367 L 381.8096347562487 179.17542823791518" pathFrom="M 4330.306730884523 179.67542823791518 L 4435.50397342499 179.67542823791518 L 4435.50397342499 155.04932542648385 L 4435.50397342499 179.67542823791518 L 4540.701215965457 179.67542823791518 L 4540.701215965457 182.31771394729367 L 4435.50397342499 182.31771394729367 L 4435.50397342499 198.17142820358276 L 4435.50397342499 182.31771394729367 L 4330.306730884523 182.31771394729367 L 4330.306730884523 179.17542823791518M 381.8096347562487 182.31771394729367" cy="179.67542823791518" cx="387.88446241502794" j="41" val="6592" barWidth="6.57482765877919"></path><path id="SvgjsPath20304" d="M 391.2022456973619 176.13476538734176 L 394.4896595267515 176.13476538734176 L 394.4896595267515 169.07986254329444 L 394.4896595267515 176.13476538734176 L 397.7770733561411 176.13476538734176 L 397.7770733561411 176.6896453863119 L 394.4896595267515 176.6896453863119 L 394.4896595267515 184.9599996566758 L 394.4896595267515 176.6896453863119 L 391.2022456973619 176.6896453863119 L 391.2022456973619 175.63476538734176" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 391.2022456973619 176.13476538734176 L 394.4896595267515 176.13476538734176 L 394.4896595267515 169.07986254329444 L 394.4896595267515 176.13476538734176 L 397.7770733561411 176.13476538734176 L 397.7770733561411 176.6896453863119 L 394.4896595267515 176.6896453863119 L 394.4896595267515 184.9599996566758 L 394.4896595267515 176.6896453863119 L 391.2022456973619 176.6896453863119 L 391.2022456973619 175.63476538734176" pathFrom="M 4630.870281000143 176.13476538734176 L 4736.067523540611 176.13476538734176 L 4736.067523540611 169.07986254329444 L 4736.067523540611 176.13476538734176 L 4841.264766081077 176.13476538734176 L 4841.264766081077 176.6896453863119 L 4736.067523540611 176.6896453863119 L 4736.067523540611 184.9599996566758 L 4736.067523540611 176.6896453863119 L 4630.870281000143 176.6896453863119 L 4630.870281000143 175.63476538734176M 391.2022456973619 176.6896453863119" cy="176.13476538734176" cx="397.2770733561411" j="42" val="6593.34" barWidth="6.57482765877919"></path><path id="SvgjsPath20305" d="M 400.594856638475 174.76077681846436 L 403.8822704678646 174.76077681846436 L 403.8822704678646 145.95986258620906 L 403.8822704678646 174.76077681846436 L 407.1696842972542 174.76077681846436 L 407.1696842972542 176.13476538734176 L 403.8822704678646 176.13476538734176 L 403.8822704678646 204.43364533481508 L 403.8822704678646 176.13476538734176 L 400.594856638475 176.13476538734176 L 400.594856638475 174.26077681846436" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 400.594856638475 174.76077681846436 L 403.8822704678646 174.76077681846436 L 403.8822704678646 145.95986258620906 L 403.8822704678646 174.76077681846436 L 407.1696842972542 174.76077681846436 L 407.1696842972542 176.13476538734176 L 403.8822704678646 176.13476538734176 L 403.8822704678646 204.43364533481508 L 403.8822704678646 176.13476538734176 L 400.594856638475 176.13476538734176 L 400.594856638475 174.26077681846436" pathFrom="M 4931.4338311157635 174.76077681846436 L 5036.631073656231 174.76077681846436 L 5036.631073656231 145.95986258620906 L 5036.631073656231 174.76077681846436 L 5141.828316196697 174.76077681846436 L 5141.828316196697 176.13476538734176 L 5036.631073656231 176.13476538734176 L 5036.631073656231 204.43364533481508 L 5036.631073656231 176.13476538734176 L 4931.4338311157635 176.13476538734176 L 4931.4338311157635 174.26077681846436M 400.594856638475 176.13476538734176" cy="174.76077681846436" cx="406.6696842972542" j="43" val="6593.86" barWidth="6.57482765877919"></path><path id="SvgjsPath20306" d="M 409.98746757958816 158.5107197057696 L 413.27488140897776 158.5107197057696 L 413.27488140897776 147.22815972671378 L 413.27488140897776 158.5107197057696 L 416.56229523836737 158.5107197057696 L 416.56229523836737 174.76077681846436 L 413.27488140897776 174.76077681846436 L 413.27488140897776 194.0230396398547 L 413.27488140897776 174.76077681846436 L 409.98746757958816 174.76077681846436 L 409.98746757958816 158.0107197057696" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 409.98746757958816 158.5107197057696 L 413.27488140897776 158.5107197057696 L 413.27488140897776 147.22815972671378 L 413.27488140897776 158.5107197057696 L 416.56229523836737 158.5107197057696 L 416.56229523836737 174.76077681846436 L 413.27488140897776 174.76077681846436 L 413.27488140897776 194.0230396398547 L 413.27488140897776 174.76077681846436 L 409.98746757958816 174.76077681846436 L 409.98746757958816 158.0107197057696" pathFrom="M 5231.997381231384 158.5107197057696 L 5337.194623771851 158.5107197057696 L 5337.194623771851 147.22815972671378 L 5337.194623771851 158.5107197057696 L 5442.391866312318 158.5107197057696 L 5442.391866312318 174.76077681846436 L 5337.194623771851 174.76077681846436 L 5337.194623771851 194.0230396398547 L 5337.194623771851 174.76077681846436 L 5231.997381231384 174.76077681846436 L 5231.997381231384 158.0107197057696M 409.98746757958816 174.76077681846436" cy="158.5107197057696" cx="416.06229523836737" j="44" val="6600.01" barWidth="6.57482765877919"></path><path id="SvgjsPath20307" d="M 419.38007852070126 153.75460542888322 L 422.66749235009087 153.75460542888322 L 422.66749235009087 150.05540543575262 L 422.66749235009087 153.75460542888322 L 425.9549061794805 153.75460542888322 L 425.9549061794805 168.4457139730439 L 422.66749235009087 168.4457139730439 L 422.66749235009087 177.6144453845991 L 422.66749235009087 168.4457139730439 L 419.38007852070126 168.4457139730439 L 419.38007852070126 153.25460542888322" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 419.38007852070126 153.75460542888322 L 422.66749235009087 153.75460542888322 L 422.66749235009087 150.05540543575262 L 422.66749235009087 153.75460542888322 L 425.9549061794805 153.75460542888322 L 425.9549061794805 168.4457139730439 L 422.66749235009087 168.4457139730439 L 422.66749235009087 177.6144453845991 L 422.66749235009087 168.4457139730439 L 419.38007852070126 168.4457139730439 L 419.38007852070126 153.25460542888322" pathFrom="M 5532.560931347004 153.75460542888322 L 5637.7581738874715 153.75460542888322 L 5637.7581738874715 150.05540543575262 L 5637.7581738874715 153.75460542888322 L 5742.955416427938 153.75460542888322 L 5742.955416427938 168.4457139730439 L 5637.7581738874715 168.4457139730439 L 5637.7581738874715 177.6144453845991 L 5637.7581738874715 168.4457139730439 L 5532.560931347004 168.4457139730439 L 5532.560931347004 153.25460542888322M 419.38007852070126 168.4457139730439" cy="153.75460542888322" cx="425.4549061794805" j="45" val="6596.25" barWidth="6.57482765877919"></path><path id="SvgjsPath20308" d="M 428.7726894618144 150.636708291815 L 432.06010329120403 150.636708291815 L 432.06010329120403 147.4395425834664 L 432.06010329120403 150.636708291815 L 435.34751712059364 150.636708291815 L 435.34751712059364 168.4457139730439 L 432.06010329120403 168.4457139730439 L 432.06010329120403 184.9599996566758 L 432.06010329120403 168.4457139730439 L 428.7726894618144 168.4457139730439 L 428.7726894618144 150.136708291815" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 428.7726894618144 150.636708291815 L 432.06010329120403 150.636708291815 L 432.06010329120403 147.4395425834664 L 432.06010329120403 150.636708291815 L 435.34751712059364 150.636708291815 L 435.34751712059364 168.4457139730439 L 432.06010329120403 168.4457139730439 L 432.06010329120403 184.9599996566758 L 432.06010329120403 168.4457139730439 L 428.7726894618144 168.4457139730439 L 428.7726894618144 150.136708291815" pathFrom="M 5833.124481462624 150.636708291815 L 5938.321724003092 150.636708291815 L 5938.321724003092 147.4395425834664 L 5938.321724003092 150.636708291815 L 6043.518966543558 150.636708291815 L 6043.518966543558 168.4457139730439 L 5938.321724003092 168.4457139730439 L 5938.321724003092 184.9599996566758 L 5938.321724003092 168.4457139730439 L 5833.124481462624 168.4457139730439 L 5833.124481462624 150.136708291815M 428.7726894618144 168.4457139730439" cy="150.636708291815" cx="434.84751712059364" j="46" val="6602.99" barWidth="6.57482765877919"></path><path id="SvgjsPath20309" d="M 438.1653004029275 150.636708291815 L 441.45271423231713 150.636708291815 L 441.45271423231713 142.68342830658003 L 441.45271423231713 150.636708291815 L 444.74012806170674 150.636708291815 L 444.74012806170674 190.74660536021838 L 441.45271423231713 190.74660536021838 L 441.45271423231713 198.19785106067502 L 441.45271423231713 190.74660536021838 L 438.1653004029275 190.74660536021838 L 438.1653004029275 150.136708291815" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 438.1653004029275 150.636708291815 L 441.45271423231713 150.636708291815 L 441.45271423231713 142.68342830658003 L 441.45271423231713 150.636708291815 L 444.74012806170674 150.636708291815 L 444.74012806170674 190.74660536021838 L 441.45271423231713 190.74660536021838 L 441.45271423231713 198.19785106067502 L 441.45271423231713 190.74660536021838 L 438.1653004029275 190.74660536021838 L 438.1653004029275 150.136708291815" pathFrom="M 6133.688031578245 150.636708291815 L 6238.885274118712 150.636708291815 L 6238.885274118712 142.68342830658003 L 6238.885274118712 150.636708291815 L 6344.0825166591785 150.636708291815 L 6344.0825166591785 190.74660536021838 L 6238.885274118712 190.74660536021838 L 6238.885274118712 198.19785106067502 L 6238.885274118712 190.74660536021838 L 6133.688031578245 190.74660536021838 L 6133.688031578245 150.136708291815M 438.1653004029275 190.74660536021838" cy="150.636708291815" cx="444.24012806170674" j="47" val="6587.81" barWidth="6.57482765877919"></path><path id="SvgjsPath20310" d="M 447.5579113440407 179.78111966628785 L 450.8453251734303 179.78111966628785 L 450.8453251734303 171.74857110977246 L 450.8453251734303 179.78111966628785 L 454.1327390028199 179.78111966628785 L 454.1327390028199 190.74660536021838 L 450.8453251734303 190.74660536021838 L 450.8453251734303 202.74258248080878 L 450.8453251734303 190.74660536021838 L 447.5579113440407 190.74660536021838 L 447.5579113440407 179.28111966628785" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 447.5579113440407 179.78111966628785 L 450.8453251734303 179.78111966628785 L 450.8453251734303 171.74857110977246 L 450.8453251734303 179.78111966628785 L 454.1327390028199 179.78111966628785 L 454.1327390028199 190.74660536021838 L 450.8453251734303 190.74660536021838 L 450.8453251734303 202.74258248080878 L 450.8453251734303 190.74660536021838 L 447.5579113440407 190.74660536021838 L 447.5579113440407 179.28111966628785" pathFrom="M 6434.251581693865 179.78111966628785 L 6539.448824234332 179.78111966628785 L 6539.448824234332 171.74857110977246 L 6539.448824234332 179.78111966628785 L 6644.646066774799 179.78111966628785 L 6644.646066774799 190.74660536021838 L 6539.448824234332 190.74660536021838 L 6539.448824234332 202.74258248080878 L 6539.448824234332 190.74660536021838 L 6434.251581693865 190.74660536021838 L 6434.251581693865 179.28111966628785M 447.5579113440407 190.74660536021838" cy="179.78111966628785" cx="453.6327390028199" j="48" val="6591.96" barWidth="6.57482765877919"></path><path id="SvgjsPath20311" d="M 456.9505222851538 179.7546968091956 L 460.2379361145434 179.7546968091956 L 460.2379361145434 168.92132540073362 L 460.2379361145434 179.7546968091956 L 463.525349943933 179.7546968091956 L 463.525349943933 189.21407964878017 L 460.2379361145434 189.21407964878017 L 460.2379361145434 198.17142820358276 L 460.2379361145434 189.21407964878017 L 456.9505222851538 189.21407964878017 L 456.9505222851538 179.2546968091956" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 456.9505222851538 179.7546968091956 L 460.2379361145434 179.7546968091956 L 460.2379361145434 168.92132540073362 L 460.2379361145434 179.7546968091956 L 463.525349943933 179.7546968091956 L 463.525349943933 189.21407964878017 L 460.2379361145434 189.21407964878017 L 460.2379361145434 198.17142820358276 L 460.2379361145434 189.21407964878017 L 456.9505222851538 189.21407964878017 L 456.9505222851538 179.2546968091956" pathFrom="M 6734.815131809485 179.7546968091956 L 6840.012374349953 179.7546968091956 L 6840.012374349953 168.92132540073362 L 6840.012374349953 179.7546968091956 L 6945.209616890419 179.7546968091956 L 6945.209616890419 189.21407964878017 L 6840.012374349953 189.21407964878017 L 6840.012374349953 198.17142820358276 L 6840.012374349953 189.21407964878017 L 6734.815131809485 189.21407964878017 L 6734.815131809485 179.2546968091956M 456.9505222851538 189.21407964878017" cy="179.7546968091956" cx="463.025349943933" j="49" val="6588.39" barWidth="6.57482765877919"></path><path id="SvgjsPath20312" d="M 466.3431332262669 173.67743967761635 L 469.6305470556565 173.67743967761635 L 469.6305470556565 163.26683398265595 L 469.6305470556565 173.67743967761635 L 472.9179608850461 173.67743967761635 L 472.9179608850461 191.30148535918852 L 469.6305470556565 191.30148535918852 L 469.6305470556565 191.30148535918852 L 469.6305470556565 191.30148535918852 L 466.3431332262669 191.30148535918852 L 466.3431332262669 173.17743967761635" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 466.3431332262669 173.67743967761635 L 469.6305470556565 173.67743967761635 L 469.6305470556565 163.26683398265595 L 469.6305470556565 173.67743967761635 L 472.9179608850461 173.67743967761635 L 472.9179608850461 191.30148535918852 L 469.6305470556565 191.30148535918852 L 469.6305470556565 191.30148535918852 L 469.6305470556565 191.30148535918852 L 466.3431332262669 191.30148535918852 L 466.3431332262669 173.17743967761635" pathFrom="M 7035.3786819251045 173.67743967761635 L 7140.575924465572 173.67743967761635 L 7140.575924465572 163.26683398265595 L 7140.575924465572 173.67743967761635 L 7245.773167006038 173.67743967761635 L 7245.773167006038 191.30148535918852 L 7140.575924465572 191.30148535918852 L 7140.575924465572 191.30148535918852 L 7140.575924465572 191.30148535918852 L 7035.3786819251045 191.30148535918852 L 7035.3786819251045 173.17743967761635M 466.3431332262669 191.30148535918852" cy="173.67743967761635" cx="472.4179608850461" j="50" val="6594.27" barWidth="6.57482765877919"></path><path id="SvgjsPath20313" d="M 475.73574416738006 167.6530282602289 L 479.02315799676967 167.6530282602289 L 479.02315799676967 155.89485685348336 L 479.02315799676967 167.6530282602289 L 482.3105718261593 167.6530282602289 L 482.3105718261593 167.9436796882619 L 479.02315799676967 167.9436796882619 L 479.02315799676967 184.9599996566758 L 479.02315799676967 167.9436796882619 L 475.73574416738006 167.9436796882619 L 475.73574416738006 167.1530282602289" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 475.73574416738006 167.6530282602289 L 479.02315799676967 167.6530282602289 L 479.02315799676967 155.89485685348336 L 479.02315799676967 167.6530282602289 L 482.3105718261593 167.6530282602289 L 482.3105718261593 167.9436796882619 L 479.02315799676967 167.9436796882619 L 479.02315799676967 184.9599996566758 L 479.02315799676967 167.9436796882619 L 475.73574416738006 167.9436796882619 L 475.73574416738006 167.1530282602289" pathFrom="M 7335.942232040725 167.6530282602289 L 7441.139474581192 167.6530282602289 L 7441.139474581192 155.89485685348336 L 7441.139474581192 167.6530282602289 L 7546.336717121659 167.6530282602289 L 7546.336717121659 167.9436796882619 L 7441.139474581192 167.9436796882619 L 7441.139474581192 184.9599996566758 L 7441.139474581192 167.9436796882619 L 7335.942232040725 167.9436796882619 L 7335.942232040725 167.1530282602289M 475.73574416738006 167.9436796882619" cy="167.6530282602289" cx="481.8105718261593" j="51" val="6596.55" barWidth="6.57482765877919"></path><path id="SvgjsPath20314" d="M 485.12835510849317 158.48429684867733 L 488.4157689378828 158.48429684867733 L 488.4157689378828 145.3257140159585 L 488.4157689378828 158.48429684867733 L 491.7031827672724 158.48429684867733 L 491.7031827672724 161.41723398609247 L 488.4157689378828 161.41723398609247 L 488.4157689378828 167.49449111766808 L 488.4157689378828 161.41723398609247 L 485.12835510849317 161.41723398609247 L 485.12835510849317 157.98429684867733" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 485.12835510849317 158.48429684867733 L 488.4157689378828 158.48429684867733 L 488.4157689378828 145.3257140159585 L 488.4157689378828 158.48429684867733 L 491.7031827672724 158.48429684867733 L 491.7031827672724 161.41723398609247 L 488.4157689378828 161.41723398609247 L 488.4157689378828 167.49449111766808 L 488.4157689378828 161.41723398609247 L 485.12835510849317 161.41723398609247 L 485.12835510849317 157.98429684867733" pathFrom="M 7636.505782156345 158.48429684867733 L 7741.7030246968125 158.48429684867733 L 7741.7030246968125 145.3257140159585 L 7741.7030246968125 158.48429684867733 L 7846.900267237279 158.48429684867733 L 7846.900267237279 161.41723398609247 L 7741.7030246968125 161.41723398609247 L 7741.7030246968125 167.49449111766808 L 7741.7030246968125 161.41723398609247 L 7636.505782156345 161.41723398609247 L 7636.505782156345 157.98429684867733M 485.12835510849317 161.41723398609247" cy="158.48429684867733" cx="491.2031827672724" j="52" val="6600.02" barWidth="6.57482765877919"></path><path id="SvgjsPath20315" d="M 494.52096604960633 157.08388542270404 L 497.80837987899594 157.08388542270404 L 497.80837987899594 145.3257140159585 L 497.80837987899594 157.08388542270404 L 501.09579370838554 157.08388542270404 L 501.09579370838554 177.00671967143717 L 497.80837987899594 177.00671967143717 L 497.80837987899594 187.2323653667445 L 497.80837987899594 177.00671967143717 L 494.52096604960633 177.00671967143717 L 494.52096604960633 156.58388542270404" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 494.52096604960633 157.08388542270404 L 497.80837987899594 157.08388542270404 L 497.80837987899594 145.3257140159585 L 497.80837987899594 157.08388542270404 L 501.09579370838554 157.08388542270404 L 501.09579370838554 177.00671967143717 L 497.80837987899594 177.00671967143717 L 497.80837987899594 187.2323653667445 L 497.80837987899594 177.00671967143717 L 494.52096604960633 177.00671967143717 L 494.52096604960633 156.58388542270404" pathFrom="M 7937.069332271965 157.08388542270404 L 8042.266574812433 157.08388542270404 L 8042.266574812433 145.3257140159585 L 8042.266574812433 157.08388542270404 L 8147.463817352899 157.08388542270404 L 8147.463817352899 177.00671967143717 L 8042.266574812433 177.00671967143717 L 8042.266574812433 187.2323653667445 L 8042.266574812433 177.00671967143717 L 7937.069332271965 177.00671967143717 L 7937.069332271965 156.58388542270404M 494.52096604960633 177.00671967143717" cy="157.08388542270404" cx="500.59579370838554" j="53" val="6593.01" barWidth="6.57482765877919"></path><path id="SvgjsPath20316" d="M 503.91357699071943 150.4517482921583 L 507.20099082010904 150.4517482921583 L 507.20099082010904 145.3257140159585 L 507.20099082010904 150.4517482921583 L 510.48840464949865 150.4517482921583 L 510.48840464949865 176.63679967212738 L 507.20099082010904 176.63679967212738 L 507.20099082010904 179.67542823791518 L 507.20099082010904 176.63679967212738 L 503.91357699071943 176.63679967212738 L 503.91357699071943 149.9517482921583" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 503.91357699071943 150.4517482921583 L 507.20099082010904 150.4517482921583 L 507.20099082010904 145.3257140159585 L 507.20099082010904 150.4517482921583 L 510.48840464949865 150.4517482921583 L 510.48840464949865 176.63679967212738 L 507.20099082010904 176.63679967212738 L 507.20099082010904 179.67542823791518 L 507.20099082010904 176.63679967212738 L 503.91357699071943 176.63679967212738 L 503.91357699071943 149.9517482921583" pathFrom="M 8237.632882387587 150.4517482921583 L 8342.830124928054 150.4517482921583 L 8342.830124928054 145.3257140159585 L 8342.830124928054 150.4517482921583 L 8448.027367468521 150.4517482921583 L 8448.027367468521 176.63679967212738 L 8342.830124928054 176.63679967212738 L 8342.830124928054 179.67542823791518 L 8342.830124928054 176.63679967212738 L 8237.632882387587 176.63679967212738 L 8237.632882387587 149.9517482921583M 503.91357699071943 176.63679967212738" cy="150.4517482921583" cx="509.98840464949865" j="54" val="6603.06" barWidth="6.57482765877919"></path><path id="SvgjsPath20317" d="M 513.3061879318326 148.25865115337 L 516.5936017612222 148.25865115337 L 516.5936017612222 146.6468568706514 L 516.5936017612222 148.25865115337 L 519.8810155906118 148.25865115337 L 519.8810155906118 150.42532543506604 L 516.5936017612222 150.42532543506604 L 516.5936017612222 160.94162255840274 L 516.5936017612222 150.42532543506604 L 513.3061879318326 150.42532543506604 L 513.3061879318326 147.75865115337" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 513.3061879318326 148.25865115337 L 516.5936017612222 148.25865115337 L 516.5936017612222 146.6468568706514 L 516.5936017612222 148.25865115337 L 519.8810155906118 148.25865115337 L 519.8810155906118 150.42532543506604 L 516.5936017612222 150.42532543506604 L 516.5936017612222 160.94162255840274 L 516.5936017612222 150.42532543506604 L 513.3061879318326 150.42532543506604 L 513.3061879318326 147.75865115337" pathFrom="M 8538.196432503206 148.25865115337 L 8643.393675043673 148.25865115337 L 8643.393675043673 146.6468568706514 L 8643.393675043673 148.25865115337 L 8748.59091758414 148.25865115337 L 8748.59091758414 150.42532543506604 L 8643.393675043673 150.42532543506604 L 8643.393675043673 160.94162255840274 L 8643.393675043673 150.42532543506604 L 8538.196432503206 150.42532543506604 L 8538.196432503206 147.75865115337M 513.3061879318326 150.42532543506604" cy="148.25865115337" cx="519.3810155906118" j="55" val="6603.89" barWidth="6.57482765877919"></path><path id="SvgjsPath20318" d="M 522.6987988729458 146.80539401321585 L 525.9862127023354 146.80539401321585 L 525.9862127023354 146.80539401321585 L 525.9862127023354 146.80539401321585 L 529.273626531725 146.80539401321585 L 529.273626531725 149.28914258002987 L 525.9862127023354 149.28914258002987 L 525.9862127023354 158.53714256286548 L 525.9862127023354 149.28914258002987 L 522.6987988729458 149.28914258002987 L 522.6987988729458 146.30539401321585" fill="rgba(239,64,60,1)" fill-opacity="1" stroke="#ef403c" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 522.6987988729458 146.80539401321585 L 525.9862127023354 146.80539401321585 L 525.9862127023354 146.80539401321585 L 525.9862127023354 146.80539401321585 L 529.273626531725 146.80539401321585 L 529.273626531725 149.28914258002987 L 525.9862127023354 149.28914258002987 L 525.9862127023354 158.53714256286548 L 525.9862127023354 149.28914258002987 L 522.6987988729458 149.28914258002987 L 522.6987988729458 146.30539401321585" pathFrom="M 8838.759982618825 146.80539401321585 L 8943.957225159293 146.80539401321585 L 8943.957225159293 146.80539401321585 L 8943.957225159293 146.80539401321585 L 9049.15446769976 146.80539401321585 L 9049.15446769976 149.28914258002987 L 8943.957225159293 149.28914258002987 L 8943.957225159293 158.53714256286548 L 8943.957225159293 149.28914258002987 L 8838.759982618825 149.28914258002987 L 8838.759982618825 146.30539401321585M 522.6987988729458 149.28914258002987" cy="146.80539401321585" cx="528.773626531725" j="56" val="6603.5" barWidth="6.57482765877919"></path><path id="SvgjsPath20319" d="M 532.0914098140588 148.33791972465406 L 535.3788236434484 148.33791972465406 L 535.3788236434484 147.99442258243653 L 535.3788236434484 148.33791972465406 L 538.666237472838 148.33791972465406 L 538.666237472838 149.28914258002987 L 535.3788236434484 149.28914258002987 L 535.3788236434484 165.14285683631897 L 535.3788236434484 149.28914258002987 L 532.0914098140588 149.28914258002987 L 532.0914098140588 147.83791972465406" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 532.0914098140588 148.33791972465406 L 535.3788236434484 148.33791972465406 L 535.3788236434484 147.99442258243653 L 535.3788236434484 148.33791972465406 L 538.666237472838 148.33791972465406 L 538.666237472838 149.28914258002987 L 535.3788236434484 149.28914258002987 L 535.3788236434484 165.14285683631897 L 535.3788236434484 149.28914258002987 L 532.0914098140588 149.28914258002987 L 532.0914098140588 147.83791972465406" pathFrom="M 9139.323532734446 148.33791972465406 L 9244.520775274914 148.33791972465406 L 9244.520775274914 147.99442258243653 L 9244.520775274914 148.33791972465406 L 9349.718017815381 148.33791972465406 L 9349.718017815381 149.28914258002987 L 9244.520775274914 149.28914258002987 L 9244.520775274914 165.14285683631897 L 9244.520775274914 149.28914258002987 L 9139.323532734446 149.28914258002987 L 9139.323532734446 147.83791972465406M 532.0914098140588 149.28914258002987" cy="148.33791972465406" cx="538.166237472838" j="57" val="6603.86" barWidth="6.57482765877919"></path><path id="SvgjsPath20320" d="M 541.484020755172 147.78303972568392 L 544.7714345845616 147.78303972568392 L 544.7714345845616 145.3257140159585 L 544.7714345845616 147.78303972568392 L 548.0588484139512 147.78303972568392 L 548.0588484139512 148.3643425817463 L 544.7714345845616 148.3643425817463 L 544.7714345845616 158.53714256286548 L 544.7714345845616 148.3643425817463 L 541.484020755172 148.3643425817463 L 541.484020755172 147.28303972568392" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 541.484020755172 147.78303972568392 L 544.7714345845616 147.78303972568392 L 544.7714345845616 145.3257140159585 L 544.7714345845616 147.78303972568392 L 548.0588484139512 147.78303972568392 L 548.0588484139512 148.3643425817463 L 544.7714345845616 148.3643425817463 L 544.7714345845616 158.53714256286548 L 544.7714345845616 148.3643425817463 L 541.484020755172 148.3643425817463 L 541.484020755172 147.28303972568392" pathFrom="M 9439.887082850066 147.78303972568392 L 9545.084325390533 147.78303972568392 L 9545.084325390533 145.3257140159585 L 9545.084325390533 147.78303972568392 L 9650.281567931 147.78303972568392 L 9650.281567931 148.3643425817463 L 9545.084325390533 148.3643425817463 L 9545.084325390533 158.53714256286548 L 9545.084325390533 148.3643425817463 L 9439.887082850066 148.3643425817463 L 9439.887082850066 147.28303972568392M 541.484020755172 148.3643425817463" cy="147.78303972568392" cx="547.5588484139512" j="58" val="6604.07" barWidth="6.57482765877919"></path><path id="SvgjsPath20321" d="M 550.8766316962851 142.68342830658003 L 554.1640455256747 142.68342830658003 L 554.1640455256747 142.68342830658003 L 554.1640455256747 142.68342830658003 L 557.4514593550643 142.68342830658003 L 557.4514593550643 145.37855973014666 L 554.1640455256747 145.37855973014666 L 554.1640455256747 147.78303972568392 L 554.1640455256747 145.37855973014666 L 550.8766316962851 145.37855973014666 L 550.8766316962851 142.18342830658003" fill="rgba(0,183,70,1)" fill-opacity="1" stroke="#00b746" stroke-opacity="1" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" class="apexcharts-candlestick-area" index="0" clip-path="url(#gridRectMask72lju0eb)" pathTo="M 550.8766316962851 142.68342830658003 L 554.1640455256747 142.68342830658003 L 554.1640455256747 142.68342830658003 L 554.1640455256747 142.68342830658003 L 557.4514593550643 142.68342830658003 L 557.4514593550643 145.37855973014666 L 554.1640455256747 145.37855973014666 L 554.1640455256747 147.78303972568392 L 554.1640455256747 145.37855973014666 L 550.8766316962851 145.37855973014666 L 550.8766316962851 142.18342830658003" pathFrom="M 9740.450632965687 142.68342830658003 L 9845.647875506154 142.68342830658003 L 9845.647875506154 142.68342830658003 L 9845.647875506154 142.68342830658003 L 9950.845118046622 142.68342830658003 L 9950.845118046622 145.37855973014666 L 9845.647875506154 145.37855973014666 L 9845.647875506154 147.78303972568392 L 9845.647875506154 145.37855973014666 L 9740.450632965687 145.37855973014666 L 9740.450632965687 142.18342830658003M 550.8766316962851 145.37855973014666" cy="142.68342830658003" cx="556.9514593550643" j="59" val="6606" barWidth="6.57482765877919"></path></g><g id="SvgjsG20261" class="apexcharts-datalabels" data:realIndex="0"></g></g><line id="SvgjsLine20349" x1="-9.534039401469258" y1="91.41070556640625" x2="563.698084927144" y2="91.41070556640625" stroke="#b6b6b6" stroke-dasharray="0" stroke-width="1" stroke-linecap="butt" class="apexcharts-ycrosshairs"></line><line id="SvgjsLine20350" x1="-9.534039401469258" y1="91.41070556640625" x2="563.698084927144" y2="91.41070556640625" stroke-dasharray="0" stroke-width="0" stroke-linecap="butt" class="apexcharts-ycrosshairs-hidden"></line><g id="SvgjsG20351" class="apexcharts-xaxis" transform="translate(0, 0)"><g id="SvgjsG20352" class="apexcharts-xaxis-texts-g" transform="translate(0, -4)"><text id="SvgjsText20354" font-family="Helvetica, Arial, sans-serif" x="9.39261094111313" y="293.22857093811035" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan20355">23:00</tspan><title>23:00</title></text><text id="SvgjsText20357" font-family="Helvetica, Arial, sans-serif" x="46.96305470556565" y="293.22857093811035" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan20358">01:00</tspan><title>01:00</title></text><text id="SvgjsText20360" font-family="Helvetica, Arial, sans-serif" x="84.53349847001817" y="293.22857093811035" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan20361">03:00</tspan><title>03:00</title></text><text id="SvgjsText20363" font-family="Helvetica, Arial, sans-serif" x="122.10394223447071" y="293.22857093811035" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan20364">05:00</tspan><title>05:00</title></text><text id="SvgjsText20366" font-family="Helvetica, Arial, sans-serif" x="159.67438599892324" y="293.22857093811035" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan20367">07:00</tspan><title>07:00</title></text><text id="SvgjsText20369" font-family="Helvetica, Arial, sans-serif" x="197.24482976337578" y="293.22857093811035" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan20370">09:00</tspan><title>09:00</title></text><text id="SvgjsText20372" font-family="Helvetica, Arial, sans-serif" x="234.8152735278283" y="293.22857093811035" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan20373">11:00</tspan><title>11:00</title></text><text id="SvgjsText20375" font-family="Helvetica, Arial, sans-serif" x="272.38571729228084" y="293.22857093811035" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan20376">13:00</tspan><title>13:00</title></text><text id="SvgjsText20378" font-family="Helvetica, Arial, sans-serif" x="309.9561610567334" y="293.22857093811035" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan20379">15:00</tspan><title>15:00</title></text><text id="SvgjsText20381" font-family="Helvetica, Arial, sans-serif" x="347.5266048211859" y="293.22857093811035" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan20382">17:00</tspan><title>17:00</title></text><text id="SvgjsText20384" font-family="Helvetica, Arial, sans-serif" x="385.09704858563845" y="293.22857093811035" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan20385">19:00</tspan><title>19:00</title></text><text id="SvgjsText20387" font-family="Helvetica, Arial, sans-serif" x="422.667492350091" y="293.22857093811035" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan20388">21:00</tspan><title>21:00</title></text><text id="SvgjsText20390" font-family="Helvetica, Arial, sans-serif" x="460.2379361145435" y="293.22857093811035" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan20391">23:00</tspan><title>23:00</title></text><text id="SvgjsText20393" font-family="Helvetica, Arial, sans-serif" x="497.80837987899605" y="293.22857093811035" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan20394">01:00</tspan><title>01:00</title></text><text id="SvgjsText20396" font-family="Helvetica, Arial, sans-serif" x="535.3788236434485" y="293.22857093811035" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan20397">03:00</tspan><title>03:00</title></text></g></g><g id="SvgjsG20419" class="apexcharts-yaxis-annotations"></g><g id="SvgjsG20420" class="apexcharts-xaxis-annotations"></g><g id="SvgjsG20421" class="apexcharts-point-annotations"></g><rect id="SvgjsRect20422" width="0" height="0" x="0" y="0" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fefefe" class="apexcharts-zoom-rect"></rect><rect id="SvgjsRect20423" width="0" height="0" x="0" y="0" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fefefe" class="apexcharts-selection-rect"></rect></g><g id="SvgjsG20219" class="apexcharts-annotations"></g></svg><div class="apexcharts-legend" style="max-height: 175px;"></div><div class="apexcharts-tooltip apexcharts-theme-light" style="left: 220.586px; top: 95.8601px;"><div class="apexcharts-tooltip-box apexcharts-tooltip-candlestick"><div>Open: <span class="value">6623.91</span></div><div>High: <span class="value">6623.91</span></div><div>Low: <span class="value">6615</span></div><div>Close: <span class="value">6615.67</span></div></div></div><div class="apexcharts-xaxistooltip apexcharts-xaxistooltip-bottom apexcharts-theme-light" style="left: 185.836px; top: 321.229px;"><div class="apexcharts-xaxistooltip-text" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px; min-width: 32.7762px;">06 Oct</div></div><div class="apexcharts-yaxistooltip apexcharts-yaxistooltip-0 apexcharts-yaxistooltip-left apexcharts-theme-light" style="top: 133.429px; left: 34.7679px;"><div class="apexcharts-yaxistooltip-text">6625.40</div></div><div class="apexcharts-toolbar" style="top: 0px; right: 3px;"><div class="apexcharts-zoomin-icon" title="Zoom In"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path d="M0 0h24v24H0z" fill="none"></path>
+    <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+</svg>
+</div><div class="apexcharts-zoomout-icon" title="Zoom Out"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path d="M0 0h24v24H0z" fill="none"></path>
+    <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+</svg>
+</div><div class="apexcharts-zoom-icon" title="Selection Zoom"><svg xmlns="http://www.w3.org/2000/svg" fill="#000000" height="24" viewBox="0 0 24 24" width="24">
+    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+    <path d="M0 0h24v24H0V0z" fill="none"></path>
+    <path d="M12 10h-2v2H9v-2H7V9h2V7h1v2h2v1z"></path>
+</svg></div><div class="apexcharts-pan-icon apexcharts-selected" title="Panning"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000" height="24" viewBox="0 0 24 24" width="24">
+    <defs>
+        <path d="M0 0h24v24H0z" id="a"></path>
+    </defs>
+    <clippath id="b">
+        <use overflow="visible" xlink:href="#a"></use>
+    </clippath>
+    <path clip-path="url(#b)" d="M23 5.5V20c0 2.2-1.8 4-4 4h-7.3c-1.08 0-2.1-.43-2.85-1.19L1 14.83s1.26-1.23 1.3-1.25c.22-.19.49-.29.79-.29.22 0 .42.06.6.16.04.01 4.31 2.46 4.31 2.46V4c0-.83.67-1.5 1.5-1.5S11 3.17 11 4v7h1V1.5c0-.83.67-1.5 1.5-1.5S15 .67 15 1.5V11h1V2.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5V11h1V5.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5z"></path>
+</svg></div><div class="apexcharts-reset-icon" title="Reset Zoom"><svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
+    <path d="M0 0h24v24H0z" fill="none"></path>
+</svg></div><div class="apexcharts-menu-icon" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg></div><div class="apexcharts-menu"><div class="apexcharts-menu-item exportSVG" title="Download SVG">Download SVG</div><div class="apexcharts-menu-item exportPNG" title="Download PNG">Download PNG</div><div class="apexcharts-menu-item exportCSV" title="Download CSV">Download CSV</div></div></div></div></div>
+
+    <script>
+
+var options = {
+          series: [{
+          data: [{
+              x: new Date(1538778600000),
+              y: [6629.81, 6650.5, 6623.04, 6633.33]
+            },
+            {
+              x: new Date(1538780400000),
+              y: [6632.01, 6643.59, 6620, 6630.11]
+            },
+            {
+              x: new Date(1538782200000),
+              y: [6630.71, 6648.95, 6623.34, 6635.65]
+            },
+            {
+              x: new Date(1538784000000),
+              y: [6635.65, 6651, 6629.67, 6638.24]
+            },
+            {
+              x: new Date(1538785800000),
+              y: [6638.24, 6640, 6620, 6624.47]
+            },
+            {
+              x: new Date(1538787600000),
+              y: [6624.53, 6636.03, 6621.68, 6624.31]
+            },
+            {
+              x: new Date(1538789400000),
+              y: [6624.61, 6632.2, 6617, 6626.02]
+            },
+            {
+              x: new Date(1538791200000),
+              y: [6627, 6627.62, 6584.22, 6603.02]
+            },
+            {
+              x: new Date(1538793000000),
+              y: [6605, 6608.03, 6598.95, 6604.01]
+            },
+            {
+              x: new Date(1538794800000),
+              y: [6604.5, 6614.4, 6602.26, 6608.02]
+            },
+            {
+              x: new Date(1538796600000),
+              y: [6608.02, 6610.68, 6601.99, 6608.91]
+            },
+            {
+              x: new Date(1538798400000),
+              y: [6608.91, 6618.99, 6608.01, 6612]
+            },
+            {
+              x: new Date(1538800200000),
+              y: [6612, 6615.13, 6605.09, 6612]
+            },
+            {
+              x: new Date(1538802000000),
+              y: [6612, 6624.12, 6608.43, 6622.95]
+            },
+            {
+              x: new Date(1538803800000),
+              y: [6623.91, 6623.91, 6615, 6615.67]
+            },
+            {
+              x: new Date(1538805600000),
+              y: [6618.69, 6618.74, 6610, 6610.4]
+            },
+            {
+              x: new Date(1538807400000),
+              y: [6611, 6622.78, 6610.4, 6614.9]
+            },
+            {
+              x: new Date(1538809200000),
+              y: [6614.9, 6626.2, 6613.33, 6623.45]
+            },
+            {
+              x: new Date(1538811000000),
+              y: [6623.48, 6627, 6618.38, 6620.35]
+            },
+            {
+              x: new Date(1538812800000),
+              y: [6619.43, 6620.35, 6610.05, 6615.53]
+            },
+            {
+              x: new Date(1538814600000),
+              y: [6615.53, 6617.93, 6610, 6615.19]
+            },
+            {
+              x: new Date(1538816400000),
+              y: [6615.19, 6621.6, 6608.2, 6620]
+            },
+            {
+              x: new Date(1538818200000),
+              y: [6619.54, 6625.17, 6614.15, 6620]
+            },
+            {
+              x: new Date(1538820000000),
+              y: [6620.33, 6634.15, 6617.24, 6624.61]
+            },
+            {
+              x: new Date(1538821800000),
+              y: [6625.95, 6626, 6611.66, 6617.58]
+            },
+            {
+              x: new Date(1538823600000),
+              y: [6619, 6625.97, 6595.27, 6598.86]
+            },
+            {
+              x: new Date(1538825400000),
+              y: [6598.86, 6598.88, 6570, 6587.16]
+            },
+            {
+              x: new Date(1538827200000),
+              y: [6588.86, 6600, 6580, 6593.4]
+            },
+            {
+              x: new Date(1538829000000),
+              y: [6593.99, 6598.89, 6585, 6587.81]
+            },
+            {
+              x: new Date(1538830800000),
+              y: [6587.81, 6592.73, 6567.14, 6578]
+            },
+            {
+              x: new Date(1538832600000),
+              y: [6578.35, 6581.72, 6567.39, 6579]
+            },
+            {
+              x: new Date(1538834400000),
+              y: [6579.38, 6580.92, 6566.77, 6575.96]
+            },
+            {
+              x: new Date(1538836200000),
+              y: [6575.96, 6589, 6571.77, 6588.92]
+            },
+            {
+              x: new Date(1538838000000),
+              y: [6588.92, 6594, 6577.55, 6589.22]
+            },
+            {
+              x: new Date(1538839800000),
+              y: [6589.3, 6598.89, 6589.1, 6596.08]
+            },
+            {
+              x: new Date(1538841600000),
+              y: [6597.5, 6600, 6588.39, 6596.25]
+            },
+            {
+              x: new Date(1538843400000),
+              y: [6598.03, 6600, 6588.73, 6595.97]
+            },
+            {
+              x: new Date(1538845200000),
+              y: [6595.97, 6602.01, 6588.17, 6602]
+            },
+            {
+              x: new Date(1538847000000),
+              y: [6602, 6607, 6596.51, 6599.95]
+            },
+            {
+              x: new Date(1538848800000),
+              y: [6600.63, 6601.21, 6590.39, 6591.02]
+            },
+            {
+              x: new Date(1538850600000),
+              y: [6591.02, 6603.08, 6591, 6591]
+            },
+            {
+              x: new Date(1538852400000),
+              y: [6591, 6601.32, 6585, 6592]
+            },
+            {
+              x: new Date(1538854200000),
+              y: [6593.13, 6596.01, 6590, 6593.34]
+            },
+            {
+              x: new Date(1538856000000),
+              y: [6593.34, 6604.76, 6582.63, 6593.86]
+            },
+            {
+              x: new Date(1538857800000),
+              y: [6593.86, 6604.28, 6586.57, 6600.01]
+            },
+            {
+              x: new Date(1538859600000),
+              y: [6601.81, 6603.21, 6592.78, 6596.25]
+            },
+            {
+              x: new Date(1538861400000),
+              y: [6596.25, 6604.2, 6590, 6602.99]
+            },
+            {
+              x: new Date(1538863200000),
+              y: [6602.99, 6606, 6584.99, 6587.81]
+            },
+            {
+              x: new Date(1538865000000),
+              y: [6587.81, 6595, 6583.27, 6591.96]
+            },
+            {
+              x: new Date(1538866800000),
+              y: [6591.97, 6596.07, 6585, 6588.39]
+            },
+            {
+              x: new Date(1538868600000),
+              y: [6587.6, 6598.21, 6587.6, 6594.27]
+            },
+            {
+              x: new Date(1538870400000),
+              y: [6596.44, 6601, 6590, 6596.55]
+            },
+            {
+              x: new Date(1538872200000),
+              y: [6598.91, 6605, 6596.61, 6600.02]
+            },
+            {
+              x: new Date(1538874000000),
+              y: [6600.55, 6605, 6589.14, 6593.01]
+            },
+            {
+              x: new Date(1538875800000),
+              y: [6593.15, 6605, 6592, 6603.06]
+            },
+            {
+              x: new Date(1538877600000),
+              y: [6603.07, 6604.5, 6599.09, 6603.89]
+            },
+            {
+              x: new Date(1538879400000),
+              y: [6604.44, 6604.44, 6600, 6603.5]
+            },
+            {
+              x: new Date(1538881200000),
+              y: [6603.5, 6603.99, 6597.5, 6603.86]
+            },
+            {
+              x: new Date(1538883000000),
+              y: [6603.85, 6605, 6600, 6604.07]
+            },
+            {
+              x: new Date(1538884800000),
+              y: [6604.98, 6606, 6604.07, 6606]
+            },
+          ]
+        }],
+          chart: {
+          type: 'candlestick',
+          height: 350
+        },
+        title: {
+          text: 'CandleStick Chart',
+          align: 'left'
+        },
+        xaxis: {
+          type: 'datetime'
+        },
+        yaxis: {
+          tooltip: {
+            enabled: true
+          }
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+            </script>
+
+
+
+
+<svg id="SvgjsSvg1209" width="2" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev" style="overflow: hidden; top: -100%; left: -100%; position: absolute; opacity: 0;"><defs id="SvgjsDefs1210"></defs><polyline id="SvgjsPolyline1211" points="0,0"></polyline><path id="SvgjsPath1212" d="M550.8766316962851 142.68342830658003L554.1640455256747 142.68342830658003L554.1640455256747 142.68342830658003L554.1640455256747 142.68342830658003L557.4514593550643 142.68342830658003L557.4514593550643 145.37855973014666L554.1640455256747 145.37855973014666L554.1640455256747 147.78303972568392L554.1640455256747 145.37855973014666L550.8766316962851 145.37855973014666L550.8766316962851 142.18342830658003 "></path></svg></body></html>
