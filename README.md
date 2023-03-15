@@ -33,7 +33,7 @@ Ce projet d'intégration permet aux gens d'investir et d'explorer le Stock Marke
 ### Built With
 
 Ce projet a été codé avec Java, Javascript, VS Code, Intellij, Html
-<a><img src="java.png" alt="Logo" width="60" height="60"></a>
+<br><img src="java.png" alt="Logo" width="60" height="60"></br>
 
 
 
