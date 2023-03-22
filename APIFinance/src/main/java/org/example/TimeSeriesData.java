@@ -6,20 +6,52 @@ public class TimeSeriesData {
 
     private String datetime;
 
-    private double open;
+    private String open;
 
-    private double high;
+    private String high;
 
-    private double low;
+    private String low;
 
-    private double close;
+    private String close;
 
-
-    private double volume;
+    private String volume;
     private JsonNode values;
     public TimeSeriesData(JsonNode values) {
         this.values = values;
-        datetime = values.get("/datetime").asText();
+        datetime = values.get("datetime").asText();
+        open = values.get("open").asText();
+        high = values.get("high").asText();
+        low = values.get("low").asText();
+        close = values.get("close").asText();
+        volume = values.get("volume").asText();
+
     }
 
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public String getOpen() {
+        return open;
+    }
+
+    public String getHigh() {
+        return high;
+    }
+
+    public String getLow() {
+        return low;
+    }
+
+    public String getClose() {
+        return close;
+    }
+
+    public String getVolume() {
+        return volume;
+    }
+
+    public JsonNode getValues() {
+        return values;
+    }
 }

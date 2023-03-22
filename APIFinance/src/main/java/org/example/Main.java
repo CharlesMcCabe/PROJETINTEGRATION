@@ -8,8 +8,9 @@ import java.util.ArrayList;
 public class Main {
 
         public static void main(String[] args) throws IOException {
-
-            ActionsJson actions = new ActionsJson(faireListeSymboles("listeStocks.txt"));
+ArrayList<String> symboles = new ArrayList<>();
+symboles.add("AAPL");
+            ActionsJson actions = new ActionsJson(symboles);
             actions.getActionsJson();
 
         }
