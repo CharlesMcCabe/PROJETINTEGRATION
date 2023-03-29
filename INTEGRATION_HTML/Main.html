@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"
+    type="text/css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+  <!-- Gérer boutons et montrer ou cacher sections-->
+  <script src="ids.js" defer></script>
+
+  <!-- Obtenir symbole de l'action cherchée -->
+  <script src="inputFunction.js" type="text/javascript"></script>
+
+  <!-- Afficher propositions d'actions dans la barre de recherche-->
+  <script src="autocompleteActions.js" defer></script>
+
+  <!-- Script pour action-->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+  <!-- <script src="scriptAction.js" type="text/javascript"></script> -->
+
+</head>
+
+
+<body>
+  <!-- Barre en haut-->
+  <div class="topnav" style="display: flex; justify-content: flex-end">
+    <button class="btn btn-primary" id="accountButton" data-toggle="modal" data-target="#exampleModal2">
+      <i class="fa fa-user fa-2x"></i>
+    </button>
+  </div>
+
+
+  <!-- Fenêtres de connexion-->
+
+  <!-- S'inscrire -->
+  <div class="modal fade" id="exampleModal1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <h3>Créer un compte</h3>
+                <p>Veuillez remplir les cases ci-dessous pour créer un
+                  compte.</p>
+                <form>
+                  <div class="form-group">
+                    <label>Prénom et nom</label>
+                    <input type="text" name="name" class="form-control" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Adresse courriel</label>
+                    <input type="email" name="email" class="form-control" required />
+                  </div>
+                  <div class="form-group">
+                    <label>Mot de passe</label>
+                    <input type="password" name="password" class="form-control" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Confirmer le mot de passe</label>
+                    <input type="password" name="confirm_password" class="form-control" required>
+                  </div>
+                  <div class="form-group">
+                    <input type="submit" name="submit" class="btn btn-primary" value="Confirmer">
+                  </div>
+                </form>
+                <p>Vous avez déjà un compte?
+                  <button class="btn btn-connect" id="login" data-toggle="modal" data-dismiss="modal"
+                    data-target="#exampleModal2">
+                    <a>Se connecter</a>.
+                  </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="close" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Se connecter -->
+  <div class="modal fade" id="exampleModal2">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <h3>Se connecter</h3>
+                <p>Veuillez vous connecter.</p>
+                <form>
+                  <div class="form-group">
+                    <label>Adresse courriel</label>
+                    <input type="email" name="email" class="form-control" required />
+                  </div>
+                  <div class="form-group">
+                    <label>Mot de passe</label>
+                    <input type="password" name="password" class="form-control" required>
+                  </div>
+                  <div class="form-group">
+                    <input type="submit" name="submit" class="btn btn-primary" value="Confirmer">
+                  </div>
+                </form>
+                <p>Vous n'avez pas de compte?
+                  <button class="btn btn-connect" id="register" data-toggle="modal" data-dismiss="modal"
+                    data-target="#exampleModal1">
+                    <a>Créer un compte</a>.
+                  </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="close" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Titre-->
+  <div id="title">
+    <div class="jumbotron rounded-0 text-center">
+      <h1><strong>Simulaction</strong></h1>
+      <h2>L'investissement accessible à tous</h2>
+    </div>
+  </div>
+
+
+  <!-- Recherche -->
+  <div id="search">
+    <div class="jumbotron text-center">
+      <div class="autocomplete" style="width:300px;">
+        <input type="text" id="txtActions" placeholder="Chercher une action" />
+      </div>
+      <input type="submit" value="Suivant" onclick="action()" id="searchSubmit">
+    </div>
+  </div>
+
+  <!-- Afficher infos de l'action -->
+  <div class="jumbotron text-center" id="sectionAction" style="background-color: white;">
+    <h3 id="infosActions" style="color: black;"></h3>
+    <div id="chart" style="color: black;"></div>
+    <div class="infos-action">
+      <h4 id="actionDescription"></h4>
+    </div>
+  </div>
+
+  <!-- Boutton retour (clear la barre de recherche)-->
+  <div id="backButton">
+    <div class="center">
+      <button type="button" id="back" class="btn btn-secondary"
+        onclick="document.getElementById('txtActions').value = ''">Retour</button>
+    </div>
+  </div>
+
+
+
+  </div>
+
+</body>
+
+</html>
