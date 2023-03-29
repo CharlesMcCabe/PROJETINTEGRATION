@@ -1,2 +1,0 @@
-https://rapidapi.com/alphawave/api/stock-analysis
-https://rapidapi.com/suneetk92/api/latest-stock-price/
