@@ -1,0 +1,6 @@
+com\example\demo\DemoApplication.class
+com\example\demo\model\Customer.class
+com\example\demo\api\CustomerController.class
+com\example\demo\Service\CustomerService.class
+com\example\demo\dao\CustomerDao.class
+com\example\demo\dao\FakeCustomerDataAccessService.class

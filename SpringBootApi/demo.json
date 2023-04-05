@@ -1,0 +1,10 @@
+[
+  {
+    "CompanyID": "1",
+    "CompanyName": "Tesla",
+    "OpenPrice": "0.4",
+    "ClosedPrice": "0.1",
+    "Volume": "47",
+    "Price" : "0.26"
+  }
+]
