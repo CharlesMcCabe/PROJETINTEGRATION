@@ -1,0 +1,97 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"
+      type="text/css">
+  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  
+    <!-- Gérer boutons et montrer ou cacher sections-->
+    <script src="ids.js" defer></script>
+
+
+  <html lang="fr">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portefeuille d'actions fictif</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Portefeuille d'actions fictif</h1>
+    <form id="form">
+        <label for="symbole">Symbole:</label>
+        <input type="text" id="symbole" name="symbole" required>
+        <label for="quantite">Quantité:</label>
+        <input type="number" id="quantite" name="quantite" required>
+        <button type="submit">Ajouter</button>
+    </form>
+    <br>
+    <table id="table">
+        <thead>
+            <tr>
+                <th>Symbole</th>
+                <th>Quantité</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+    </table>
+    <script>
+        const form = document.getElementById("form");
+        const tbody = document.getElementById("tbody");
+
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            const symbole = document.getElementById("symbole").value.trim();
+            const quantite = document.getElementById("quantite").value;
+
+            if (symbole && quantite) {
+                const row = document.createElement("tr");
+
+                const symboleCell = document.createElement("td");
+                symboleCell.textContent = symbole;
+                row.appendChild(symboleCell);
+
+                const quantiteCell = document.createElement("td");
+                quantiteCell.textContent = quantite;
+                row.appendChild(quantiteCell);
+
+                const supprimerCell = document.createElement("td");
+                const supprimerBtn = document.createElement("button");
+                supprimerBtn.textContent = "Supprimer";
+                supprimerBtn.addEventListener("click", () => {
+                    row.remove();
+                });
+                supprimerCell.appendChild(supprimerBtn);
+                row.appendChild(supprimerCell);
+
+                tbody.appendChild(row);
+
+                form.reset();
+            }
+        });
+    </script>
+</body>
+</html>
+  

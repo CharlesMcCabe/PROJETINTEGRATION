@@ -24,8 +24,8 @@ window.onload = action();
 function graphic(symbole) {
 const apiKey = '309d8ab554114f79835de8d8c62c0404';
 const symbol = symbole; // symbole de l'action pour laquelle vous voulez obtenir les données
-const interval = '5min'; // intervalle de temps souhaité (par exemple : 1min, 5min, 1hour, 1day, 1week, 1month)
-const outputSize = 30; // nombre de points de données à récupérer
+const interval = '1week'; // intervalle de temps souhaité (par exemple : 1min, 5min, 15min, 30min, 45min, 1h, 2h, 4h, 1day, 1week, 1month)
+const outputSize = 50; // nombre de points de données à récupérer
 
 // construire l'URL de l'API
 const apiUrl = `https://api.twelvedata.com/time_series?symbol=${symbol}&interval=${interval}&outputsize=${outputSize}&apikey=${apiKey}&timezone=America/New_York`;
@@ -111,9 +111,24 @@ fetch(`https://www.alphavantage.co/query?function=OVERVIEW&symbol=${symbol}&apik
     const dividendPerShare = data2.DividendPerShare;
     const dividendYield = data2.DividendYield;
     const revenuePerShare = data2.RevenuePerShareTTM;
+    const marketCapitalization = data2.MarketCapitalization;
+    const bookValue = data2.BookValue;
+    const profitMargin = data2.ProfitMargin;
+    const priceToSalesRatio = data2.PriceToSalesRatioTTM;
+    const grossProfit = data2.GrossProfitTTM;
+    
 
-
-    document.getElementById("actionDescription").innerText = description;
+    document.getElementById("actionName").innerText = companyName;
+    document.getElementById("actionExchange").innerText = exchange;
+    document.getElementById("actionPERatio").innerText = per;
+    document.getElementById("actionDividendPerShare").innerText = dividendPerShare;
+    document.getElementById("actionDividendYield").innerText = dividendYield;
+    document.getElementById("actionRevenuePerShare").innerText = revenuePerShare;
+    document.getElementById("actionMarketCapitalization").innerText = marketCapitalization;
+    document.getElementById("actionBookValue").innerText = bookValue;
+    document.getElementById("actionProfitMargin").innerText = profitMargin;
+    document.getElementById("actionPriceToSalesRatio").innerText = priceToSalesRatio;
+    document.getElementById("actionGrossProfit").innerText = grossProfit;
   })
   .catch(error => {
     console.error(error);
