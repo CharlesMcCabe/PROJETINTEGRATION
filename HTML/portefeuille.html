@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Portefeuille d'actions fictif</title>
+    <style>
+        table, th, td {
+            border: px solid black;
+            border-collapse: collapse;
+            background-color: white;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        th, td {
+            padding: 20px;
+            font-size: 20px;
+        }
+        #conteneur {
+            text-align: center;
+            padding: 40px;
+        
+        } 
+
+        #rechercher{
+            width: auto;
+            height: auto;
+            font-size: 20px;
+        }
+        button{
+            margin-right: 5px; 
+            
+        }
+        .espacement {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        #solde{
+            color: white;
+        }
+    </style>
+ 
+</head>
+<body>
+    <div id ="conteneur">
+        <h1 class="espacement">Portefeuille d'actions fictif</h1>
+        <p id="solde" class="espacement">Solde total du portefeuille: 0 $</p>
+        <button id="rechercher" type="button" class="btn btn-secondary">Rechercher de nouvelles actions</button>
+        <br><br>
+        <table id="table" class="espacement">
+            <thead>
+                <tr>
+                    <th>Symbole</th>
+                    <th>Quantité</th>
+                    <th>Prix moyen</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+            </tbody>
+        </table>
+        <script>
+            const soldeElement = document.getElementById("solde");
+            const rechercherBtn = document.getElementById("rechercher");
+            const tbody = document.getElementById("tbody");
+
+
+            fetch()
+
+            // Exemple d'ajout d'actions existantes
+            const actionsExistantes = [
+                { symbole: "AAPL", quantite: 10, prixMoyen: 150 },
+                { symbole: "GOOGL", quantite: 5, prixMoyen: 2000 },
+                { symbole: "AMZN", quantite: 2, prixMoyen: 3500 },
+                { symbole: "ADB", quantite: 2, prixMoyen: 3500 },
+                { symbole: "ADB", quantite: 2, prixMoyen: 3500 },
+            ];
+
+            let soldeTotal = 0;
+
+            actionsExistantes.forEach((action) => {
+                const row = document.createElement("tr");
+                row.id = `row-${action.symbole}`;
+
+                const symboleCell = document.createElement("td");
+                symboleCell.textContent = action.symbole;
+                row.appendChild(symboleCell);
+
+                const quantiteCell = document.createElement("td");
+                quantiteCell.id = `quantite-${action.symbole}`;
+                quantiteCell.textContent = action.quantite;
+                row.appendChild(quantiteCell);
+
+                const prixMoyenCell = document.createElement("td");
+                prixMoyenCell.textContent = action.prixMoyen.toFixed(2) + " $";
+                row.appendChild(prixMoyenCell);
+
+                soldeTotal += action.quantite * action.prixMoyen;
+
+                const actionCell = document.createElement("td");
+                
+                // bouton pour voir le prix
+                const voirPrixBtn = document.createElement("button");
+                voirPrixBtn.type = "button";
+                voirPrixBtn.className = "btn btn-success";
+                voirPrixBtn.textContent = "Voir le prix";
+                voirPrixBtn.addEventListener("click", () => {
+                    location.href = `autre_page.html?symbole=${action.symbole}`;
+                });
+                actionCell.appendChild(voirPrixBtn);
+
+                // bouton pour vendre
+                const vendreBtn = document.createElement("button");
+                vendreBtn.type = "button";
+                vendreBtn.className = "btn btn-success";
+                vendreBtn.textContent = "Vendre";
+                vendreBtn.addEventListener("click", () => {
+                        vendreAction(action)
+                });
+                actionCell.appendChild(vendreBtn);
+
+                row.appendChild(actionCell);
+
+                tbody.appendChild(row);
+            });
+
+            soldeElement.textContent = `Solde total du portefeuille: ${soldeTotal.toFixed(2)} $`;
+
+            rechercherBtn.addEventListener("click",         () => {
+                // Ajoutez ici la logique pour rechercher de nouvelles actions
+                console.log("Rechercher de nouvelles actions");
+            });
+
+            function vendreAction(action) {
+                // Ajoutez ici la logique de vente de l'action
+                const quantiteAVendre = prompt("Veuillez entrer la quantité d'actions à vendre :", 1);
+                if (quantiteAVendre === null) {
+                // L'utilisateur a cliqué sur "Annuler"
+                return false;
+                }
+
+                if (isNaN(quantiteAVendre) || parseInt(quantiteAVendre) <= 0) {
+                    alert("Veuillez entrer un nombre valide.");
+                    return false;
+                }
+
+                // Vérifiez si l'utilisateur a suffisamment d'actions pour vendre
+                const quantiteEnPortefeuille = action.quantite;
+                if (parseInt(quantiteAVendre) > quantiteEnPortefeuille) {
+                    alert("Vous n'avez pas suffisamment d'actions pour vendre cette quantité.");
+                    return false;
+                } else {
+                    action.quantite = quantiteEnPortefeuille - quantiteAVendre;
+                    const elementQuantite = document.getElementById(`quantite-${action.symbole}`);
+                    elementQuantite.textContent = action.quantite;
+
+
+                    if (action.quantite === 0){
+                        const row = document.getElementById(`row-${action.symbole}`);
+                        row.parentNode.removeChild(row);
+                    }
+                }
+                
+        
+                    console.log(`Action ${action.symbole} vendue.`);
+                }
+        </script>
+    </div>
+</body>
+</html>
+
+
+
