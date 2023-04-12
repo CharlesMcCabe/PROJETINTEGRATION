@@ -19,7 +19,6 @@ html.sectionAction.style.display = "none";
 
 
 html.searchSubmit.addEventListener("click", () => {
-    console.log("searchSubmit");
     html.title.style.display = "none";
     html.search.style.display = "none";
     html.backButton.style.display = "block";
@@ -28,7 +27,6 @@ html.searchSubmit.addEventListener("click", () => {
 
 
 html.back.addEventListener("click", () => {
-    console.log("Return");
     html.title.style.display = "block";
     html.search.style.display = "block";
     html.backButton.style.display = "none";

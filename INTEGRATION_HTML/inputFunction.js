@@ -1,14 +1,13 @@
-function action() {
+function action(interval, outputSize, chartType) {
   var input;
   var abbreviation;
   element = document.getElementById("txtActions");
   if (element != null) {
     input = element.value;
     abbreviation = input.substring(0, input.indexOf(' '));
-    //console.log(abbreviation);
     document.getElementById("infosActions").innerText = abbreviation;
     console.log(abbreviation);
-    graphic(abbreviation);
+    graphic(abbreviation, interval, outputSize, chartType);
   }
   else {
     input = null;
@@ -18,14 +17,21 @@ function action() {
   }
 
 }
-console.log(action());
-window.onload = action();
 
-function graphic(symbole) {
+
+function graphic(symbol, interval, outputSize, chartType) {
 const apiKey = '309d8ab554114f79835de8d8c62c0404';
-const symbol = symbole; // symbole de l'action pour laquelle vous voulez obtenir les données
-const interval = '1week'; // intervalle de temps souhaité (par exemple : 1min, 5min, 15min, 30min, 45min, 1h, 2h, 4h, 1day, 1week, 1month)
-const outputSize = 50; // nombre de points de données à récupérer
+// symbole de l'action pour laquelle vous voulez obtenir les données
+if(interval == null){
+  interval = '1week';
+}
+if(outputSize == null){
+  outputSize = 50; // intervalle de temps souhaité (par exemple : 1min, 5min, 15min, 30min, 45min, 1h, 2h, 4h, 1day, 1week, 1month)
+}
+if(chartType == null){
+  chartType = 'candlestick';
+}
+ 
 
 // construire l'URL de l'API
 const apiUrl = `https://api.twelvedata.com/time_series?symbol=${symbol}&interval=${interval}&outputsize=${outputSize}&apikey=${apiKey}&timezone=America/New_York`;
@@ -39,7 +45,7 @@ fetch(apiUrl)
 
     var chartData = data1.values;
     // les données de la série temporelle sont stockées dans l'objet data
-    console.log(data1);
+    
     var data = [];
     // Boucle pour ajouter chaque objet de données au tableau "data"
     for (var i = 0; i < chartData.length; i++) {
@@ -55,11 +61,11 @@ fetch(apiUrl)
       }],
 
       chart: {
-        type: 'candlestick',
+        type: chartType,
         height: 350
       },
       title: {
-        text: 'CandleStick Chart',
+        text: 'Graphique de l\'action',
         align: 'left'
       },
       xaxis: {
@@ -77,7 +83,6 @@ fetch(apiUrl)
 
     var chart = new ApexCharts(document.querySelector("#chart"), options);
     chart.render();
-
   })
   .catch(error => {
     console.log(error);

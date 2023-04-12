@@ -1,97 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"
-      type="text/css">
-  
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  
-    <!-- Gérer boutons et montrer ou cacher sections-->
-    <script src="ids.js" defer></script>
-
-
-  <html lang="fr">
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylePortefeuille.css">
     <title>Portefeuille d'actions fictif</title>
     <style>
-        table, th, td {
-            border: 1px solid black;
+        table,
+        th,
+        td {
+            border: px solid black;
             border-collapse: collapse;
+            background-color: white;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
         }
-        th, td {
-            padding: 10px;
+
+        th,
+        td {
+            padding: 20px;
+            font-size: 20px;
+        }
+
+        #conteneur {
+            text-align: center;
+            padding: 40px;
+
+        }
+
+        #rechercher {
+            width: auto;
+            height: auto;
+            font-size: 20px;
+        }
+
+        button {
+            margin-right: 5px;
+
+        }
+
+        .espacement {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        #solde {
+            color: white;
         }
     </style>
+
 </head>
+
 <body>
-    <h1>Portefeuille d'actions fictif</h1>
-    <form id="form">
-        <label for="symbole">Symbole:</label>
-        <input type="text" id="symbole" name="symbole" required>
-        <label for="quantite">Quantité:</label>
-        <input type="number" id="quantite" name="quantite" required>
-        <button type="submit">Ajouter</button>
-    </form>
-    <br>
-    <table id="table">
-        <thead>
-            <tr>
-                <th>Symbole</th>
-                <th>Quantité</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody id="tbody">
-        </tbody>
-    </table>
-    <script>
-        const form = document.getElementById("form");
-        const tbody = document.getElementById("tbody");
+    <div id="conteneur">
+        <h1 class="espacement">Portefeuille d'actions fictif</h1>
+        <p id="solde" class="espacement">Solde total du portefeuille: 0 $</p>
+        <button id="rechercher" type="button" class="btn btn-secondary">Rechercher de nouvelles actions</button>
+        <br><br>
+        <table id="table" class="espacement">
+            <thead>
+                <tr>
+                    <th>Symbole</th>
+                    <th>Quantité</th>
+                    <th>Coût moyen</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+            </tbody>
+        </table>
+        <script>
+            const soldeElement = document.getElementById("solde");
+            const rechercherBtn = document.getElementById("rechercher");
+            const tbody = document.getElementById("tbody");
 
-        form.addEventListener("submit", (event) => {
-            event.preventDefault();
 
-            const symbole = document.getElementById("symbole").value.trim();
-            const quantite = document.getElementById("quantite").value;
+            
 
-            if (symbole && quantite) {
+            // Exemple d'ajout d'actions existantes
+            const actionsExistantes = [
+                { symbole: "AAPL", quantite: 10, coutMoyen: 150 },
+                { symbole: "GOOGL", quantite: 5, coutMoyen: 2000 },
+                { symbole: "AMZN", quantite: 2, coutMoyen: 3500 },
+                { symbole: "ADB", quantite: 2, coutMoyen: 3500 },
+                { symbole: "ADB", quantite: 2, coutMoyen: 3500 },
+            ];
+
+            let soldeTotal = 0;
+
+            actionsExistantes.forEach((action) => {
                 const row = document.createElement("tr");
+                row.id = `row-${action.symbole}`;
 
                 const symboleCell = document.createElement("td");
-                symboleCell.textContent = symbole;
+                symboleCell.textContent = action.symbole;
                 row.appendChild(symboleCell);
 
                 const quantiteCell = document.createElement("td");
-                quantiteCell.textContent = quantite;
+                quantiteCell.id = `quantite-${action.symbole}`;
+                quantiteCell.textContent = action.quantite;
                 row.appendChild(quantiteCell);
 
-                const supprimerCell = document.createElement("td");
-                const supprimerBtn = document.createElement("button");
-                supprimerBtn.textContent = "Supprimer";
-                supprimerBtn.addEventListener("click", () => {
-                    row.remove();
+                const coutMoyen = document.createElement("td");
+                coutMoyen.textContent = action.coutMoyen.toFixed(2) + " $";
+                row.appendChild(coutMoyen);
+
+                const actionCell = document.createElement("td");
+
+                // bouton pour voir le prix
+                const voirPrixBtn = document.createElement("button");
+                voirPrixBtn.type = "button";
+                voirPrixBtn.className = "btn btn-success";
+                voirPrixBtn.textContent = "Voir le prix";
+                voirPrixBtn.addEventListener("click", () => {
+
                 });
-                supprimerCell.appendChild(supprimerBtn);
-                row.appendChild(supprimerCell);
+                actionCell.appendChild(voirPrixBtn);
+
+                // bouton pour vendre
+                const vendreBtn = document.createElement("button");
+                vendreBtn.type = "button";
+                vendreBtn.className = "btn btn-success";
+                vendreBtn.textContent = "Vendre";
+                vendreBtn.addEventListener("click", () => {
+                    vendreAction(action)
+                });
+                actionCell.appendChild(vendreBtn);
+
+                row.appendChild(actionCell);
 
                 tbody.appendChild(row);
+            });
 
-                form.reset();
+
+            rechercherBtn.addEventListener("click", () => {
+                // Ajoutez ici la logique pour rechercher de nouvelles actions
+                location.href = "Main.html";
+                console.log("Rechercher de nouvelles actions");
+            });
+
+            function vendreAction(action) {
+                // Ajoutez ici la logique de vente de l'action
+                const quantiteAVendre = prompt("Veuillez entrer la quantité d'actions à vendre :", 1);
+                if (quantiteAVendre === null) {
+                    // L'utilisateur a cliqué sur "Annuler"
+                    return false;
+                }
+
+                if (isNaN(quantiteAVendre) || parseInt(quantiteAVendre) <= 0) {
+                    alert("Veuillez entrer un nombre valide.");
+                    return false;
+                }
+
+                // Vérifiez si l'utilisateur a suffisamment d'actions pour vendre
+                const quantiteEnPortefeuille = action.quantite;
+                if (parseInt(quantiteAVendre) > quantiteEnPortefeuille) {
+                    alert("Vous n'avez pas suffisamment d'actions pour vendre cette quantité.");
+                    return false;
+                } else {
+                    action.quantite = quantiteEnPortefeuille - quantiteAVendre;
+                    const elementQuantite = document.getElementById(`quantite-${action.symbole}`);
+                    elementQuantite.textContent = action.quantite;
+                    
+                    // ajuster le solde
+                    soldeTotal += quantiteAVendre * action.coutMoyen;
+                    soldeElement.textContent = `Solde total du portefeuille: ${soldeTotal.toFixed(2)} $`;
+
+                    //effacer la ligne si la quantité est 0
+                    if (action.quantite === 0) {
+                        const row = document.getElementById(`row-${action.symbole}`);
+                        row.parentNode.removeChild(row);
+                    }
+                }
+
+
+                console.log(`Action ${action.symbole} vendue.`);
             }
-        });
-    </script>
+        </script>
+    </div>
 </body>
+
 </html>
-  
