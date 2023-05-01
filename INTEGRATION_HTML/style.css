@@ -48,6 +48,10 @@ a:hover{
   text-decoration:none;
 }
 
+.topnav-right {
+  float: right;
+}
+
 .btn-primary {
   background-color: #049C11;
 }
@@ -76,7 +80,7 @@ a:hover{
 }
 
 .topnav {
-  background-color: #049C11;
+  background-color: #474747;
 }
 
 .fa-user {
