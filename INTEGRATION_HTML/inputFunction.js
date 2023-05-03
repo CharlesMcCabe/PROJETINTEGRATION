@@ -143,7 +143,7 @@ function graphic(symbol, interval, outputSize, chartType) {
       document.getElementById("actionExchange").innerText = exchange;
       document.getElementById("actionPERatio").innerText = per;
       document.getElementById("actionDividendPerShare").innerText = dividendPerShare;
-      document.getElementById("actionDividendYield").innerText = dividendYield;
+      document.getElementById("actionDividendYield").innerText = (dividendYield*100).toFixed(2) + "%";
       document.getElementById("actionRevenuePerShare").innerText = revenuePerShare;
       document.getElementById("actionMarketCapitalization").innerText = marketCapitalization;
       document.getElementById("actionBookValue").innerText = bookValue;
