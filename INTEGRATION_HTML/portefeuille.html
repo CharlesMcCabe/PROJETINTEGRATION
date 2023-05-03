@@ -123,14 +123,11 @@
               actionsExistantes.push({ symbole: datas[i].symbole, quantite: datas[i].quantity, coutMoyen: datas[i].price})
               
             }
-
-            });
-
-        
+            
             
 
             //a modifier lorsque l'api va marcher
-            let soldeTotal = 0;
+            let soldeTotal = data[0].solde;
             let profit = 0;
 
             actionsExistantes.forEach((action) => {
@@ -178,6 +175,10 @@
 
                 tbody.appendChild(row);
             });
+
+            });
+
+        
 
 
             rechercherBtn.addEventListener("click", () => {
