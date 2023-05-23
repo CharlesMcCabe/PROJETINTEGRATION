@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="stylePortefeuille.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Obtenir symbole de l'action cherchée -->
+<script src="inputFunction.js" type="text/javascript"></script>
+
+
+
+<script src="boutonNav.js" defer></script>
+
+    <title>Portefeuille d'actions fictif</title>
+    <style>
+        body {
+            overflow: auto;
+        }
+        table,
+        th,
+        td {
+            border: px solid black;
+            border-collapse: collapse;
+            background-color: white;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        th,
+        td {
+            padding: 20px;
+            font-size: 20px;
+        }
+
+        #conteneur {
+            text-align: center;
+            padding: 40px;
+
+        }
+
+        #rechercher {
+            width: auto;
+            height: auto;
+            font-size: 20px;
+        }
+
+        button {
+            margin-right: 5px;
+
+        }
+
+        .espacement {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        #solde {
+            color: white;
+        }
+        #profit {
+            color: white;
+        }
+    
+    </style>
+
+</head>
+
+<body>
+
+
+    <!-- barre de navigation en haut-->
+    <div class="topnav">
+      <button onclick="location.href = 'Main.html'"><i class="fa fa-fw fa-home"></i> Menu principal</button>
+      <div style="float: right;">
+        <button onclick="boutonPortefeuille()" style="width:auto;">Mon portefeuille</button>
+        <button onclick="boutonCompte()" style="width:auto;">
+          <i class="fa fa-user"></i>
+          Compte
+        </button>
+      </div>
+    </div>
+
+  
+
+<!-- Les differents titres de la page-->
+    <div id="conteneur">
+        <h1 class="espacement">Portefeuille d'actions fictif</h1>
+        <p id="solde" class="espacement">Solde total du portefeuille: 0$</p>
+        <script>
+            fetch("http://localhost:8080/api/users/name/"+sessionStorage.getItem('nom'))
+                .then(response => response.json())
+                .then(datas => {
+                  var actionsExistantes = [];
+                for(i = 0; i < datas.length; i++){
+                  actionsExistantes.push({ symbole: datas[i].symbole, quantite: datas[i].quantity, coutMoyen: datas[i].price})
+                  
+                }
+                
+                let soldeTotal = datas[datas.length -1].solde;
+                    apressoldeElement.textContent = `Solde total du portefeuille: ${Number(soldeTotal).toFixed(2)} $`});
+        </script>
+        <button type="button" onclick = "solde()" id="soldebtn" class="btn btn-secondary">Déterminez votre solde</button>
+        <p id="profit" class="espacement"> Profits: 0$ </p>
+        <button id="rechercher" type="button" class="btn btn-secondary">Rechercher de nouvelles actions</button>
+        <br><br>
+        <table id="table" class="espacement">
+            <thead>
+                <tr>
+                    <th>Symbole</th>
+                    <th>Quantité</th>
+                    <th>Coût moyen</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+            </tbody>
+        </table>
+        <script>
+            //logique pour boutton acheter
+            function solde() {
+            let soldetot = prompt("Veuillez entrer le solde désiré :", 1);
+                    if (soldetot === null) {
+                        // L'utilisateur a cliqué sur "Annuler"
+                        return false;
+                    }
+    
+                    if (isNaN(soldetot) || parseInt(soldetot) <= 0) {
+                        alert("Veuillez entrer un nombre valide.");
+                        return false;
+                    }
+                    else {
+                        soldeTotal = soldetot;
+                        soldeElement.textContent = `Solde total du portefeuille: ${Number(soldeTotal).toFixed(2)} $`
+                        fetch("http://localhost:8080/api/users", {
+                        method: "POST",
+                        body: JSON.stringify({
+                        name: sessionStorage.getItem('nom'),
+                        password: sessionStorage.getItem('psw'),
+                        solde: soldeTotal
+                         }),
+                        headers: {
+                              "Content-type": "application/json; charset=UTF-8"
+                                 }
+                        })
+            .then(response => response.json())
+            .then(json => console.log(json))
+            .catch(error => console.log(error));
+    }
+                    }
+                
+        </script>
+        
+        <script>
+            const soldeElement = document.getElementById("solde");
+            const ProfitElement = document.getElementById("profit");
+            const rechercherBtn = document.getElementById("rechercher");
+            const tbody = document.getElementById("tbody");
+            
+            fetch("http://localhost:8080/api/users/name/"+sessionStorage.getItem('nom'))
+            .then(response => response.json())
+            .then(datas => {
+              var actionsExistantes = [];
+            for(i = 0; i < datas.length; i++){
+              actionsExistantes.push({ symbole: datas[i].symbole, quantite: datas[i].quantity, coutMoyen: datas[i].price})
+              
+            }
+            
+            
+
+            //a modifier lorsque l'api va marcher
+            soldeTotal = datas[datas.length-1].solde;
+            let profit = 0;
+
+            actionsExistantes.forEach((action) => {
+                const row = document.createElement("tr");
+                row.id = `row-${action.symbole}`;
+
+                const symboleCell = document.createElement("td");
+                symboleCell.textContent = action.symbole;
+                row.appendChild(symboleCell);
+
+                const quantiteCell = document.createElement("td");
+                quantiteCell.id = `quantite-${action.symbole}`;
+                quantiteCell.textContent = action.quantite;
+                row.appendChild(quantiteCell);
+
+                const coutMoyen = document.createElement("td");
+                coutMoyen.textContent = action.coutMoyen.toFixed(2) + " $";
+                row.appendChild(coutMoyen);
+
+                const actionCell = document.createElement("td");
+
+                // bouton pour voir le prix
+                const voirPrixBtn = document.createElement("button");
+                voirPrixBtn.type = "button";
+                voirPrixBtn.className = "btn btn-success";
+                voirPrixBtn.textContent = "Voir le prix";
+                voirPrixBtn.addEventListener("click", () => {
+                    action2(action.symbole);
+                    location.href = `infosAction.html?symbol=${action.symbole}`;
+
+                });
+                actionCell.appendChild(voirPrixBtn);
+
+                // bouton pour vendre
+                const vendreBtn = document.createElement("button");
+                vendreBtn.type = "button";
+                vendreBtn.className = "btn btn-success";
+                vendreBtn.textContent = "Vendre";
+                vendreBtn.addEventListener("click", () => {
+                    vendreAction(action)
+                });
+                actionCell.appendChild(vendreBtn);
+
+                row.appendChild(actionCell);
+
+                tbody.appendChild(row);
+            });
+
+            });
+
+        
+
+
+            rechercherBtn.addEventListener("click", () => {
+                // Ajoutez ici la logique pour rechercher de nouvelles actions
+                location.href = "Main.html";
+                console.log("Rechercher de nouvelles actions");
+            });
+
+            function vendreAction(action) {
+                // Ajoutez ici la logique de vente de l'action
+                let quantiteAVendre = prompt("Veuillez entrer la quantité d'actions à vendre :", 1);
+                if (quantiteAVendre === null) {
+                    // L'utilisateur a cliqué sur "Annuler"
+                    return false;
+                }
+
+                if (isNaN(quantiteAVendre) || parseInt(quantiteAVendre) <= 0) {
+                    alert("Veuillez entrer un nombre valide.");
+                    return false;
+                }
+
+                // Vérifiez si l'utilisateur a suffisamment d'actions pour vendre
+                let quantiteEnPortefeuille = action.quantite;
+                if (parseInt(quantiteAVendre) > quantiteEnPortefeuille) {
+                    alert("Vous n'avez pas suffisamment d'actions pour vendre cette quantité.");
+                    return false;
+                } else {
+                    action.quantite = quantiteEnPortefeuille - quantiteAVendre;
+                    const elementQuantite = document.getElementById(`quantite-${action.symbole}`);
+                    elementQuantite.textContent = action.quantite;
+                    
+                    // ajuster le solde et les profits
+                    
+                    trouverPrix(action)
+                        .then((prix) => {
+                            
+                            soldeTotal += quantiteAVendre * prix;
+                            
+                            soldeElement.textContent = `Solde total du portefeuille: ${soldeTotal.toFixed(2)} $`;
+                            profit += quantiteAVendre * (prix - action.coutMoyen)
+                            console.log(profit);
+                            ProfitElement.textContent = `profits: ${profit.toFixed(2)} $`;
+
+                            //effacer la ligne si la quantité est 0
+                            if (action.quantite === 0) {
+                                const row = document.getElementById(`row-${action.symbole}`);
+                                row.parentNode.removeChild(row);
+                                }
+                            
+                        })
+                        .catch((error) => {
+                            console.error(`Erreur lors de la récupération du prix de l'action ${action.symbole}: ${error}`);
+                        });
+                        
+                    
+
+                    
+                }
+
+                 console.log(`Action ${action.symbole} vendue.`);
+            }
+
+            function trouverPrix(action){
+                
+                 return fetch(`https://api.twelvedata.com/time_series?symbol=${action.symbole}&interval=1min&apikey=309d8ab554114f79835de8d8c62c0404`)
+                    .then(response => response.json())
+                    .then(data => {
+                    const prix = data.values[0].close;
+                    console.log(prix);
+                    return prix;
+                    })
+                    .catch((error) => {
+                    console.error(`Erreur lors de la récupération du prix de l'action: ${error}`);
+                    });
+
+                }
+
+            
+        </script>
+    </div>
+
+
+
+
+
+</body>
+
+</html>
